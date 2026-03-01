@@ -60,9 +60,6 @@ barrage-flow-manager/
 ├── 📁 database/                       ← Conception & Scripts SQL
 │   ├── README.md                      ← Guide équipe + outils
 │   ├── conception/                    ← MERISE : MCD, MLD, MPD, UML
-│   │   ├── TASKS_HASSAN.md
-│   │   ├── TASKS_YASSIN.md
-│   │   └── TASKS_ABIR.md
 │   └── sql/                           ← Scripts SQL (MySQL)
 │
 ├── 📁 frontend/                       ← React + Vite + TypeScript
