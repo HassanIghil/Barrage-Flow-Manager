@@ -1,6 +1,6 @@
 # ⚛️ Frontend — React + Vite (TypeScript)
 
-> **Équipe responsable :** Augmenteds (INAK Samia, IRHIL Oussama, ISLAOUINE Mouad)
+> **Équipe responsable :** Version Manuelle (IGHIL Hassan, IFQUIRNE Yassine, ID BOULAID Aabir)
 > **Branche GitHub :** `feat/frontend-dashboard`
 
 Ce dossier contient le **Dashboard Web** pour visualiser et contrôler les lâchers d'eau du Barrage Youssef Ibn Tachfine.

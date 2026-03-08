@@ -1,14 +1,16 @@
 <p align="center">
   <img src="https://img.shields.io/badge/Status-En%20Développement-yellow?style=for-the-badge" alt="Status"/>
+  <img src="https://img.shields.io/badge/Version-Manuelle%20🖊️-orange?style=for-the-badge" alt="Version"/>
   <img src="https://img.shields.io/badge/Université-Souss%20Massa-blue?style=for-the-badge" alt="University"/>
   <img src="https://img.shields.io/badge/Projet-SIBD%202025--2026-green?style=for-the-badge" alt="Project"/>
 </p>
 
-<h1 align="center">🌊 Barrage-Flow Manager</h1>
+<h1 align="center">🌊 Barrage-Flow Manager — Version Manuelle</h1>
 <h3 align="center">Optimisation des lâchers d'eau — Barrage Youssef Ibn Tachfine</h3>
 
 <p align="center">
-  Système d'information critique pour arbitrer entre l'irrigation agricole et la réserve de sécurité/eau potable dans la région Souss-Massa.
+  Système d'information critique pour arbitrer entre l'irrigation agricole et la réserve de sécurité/eau potable dans la région Souss-Massa.<br/>
+  <b>🖊️ Ce repo contient la version développée entièrement à la main (sans IA).</b>
 </p>
 
 ---
@@ -59,7 +61,7 @@ barrage-flow-manager/
 │
 ├── 📁 database/                       ← Conception & Scripts SQL
 │   ├── README.md                      ← Guide équipe + outils
-│   ├── conception/                    ← MERISE : MCD, MLD, MPD, UML
+│   ├── conception/                    ← MERISE : MCD, MLD, MPD
 │   └── sql/                           ← Scripts SQL (MySQL)
 │
 ├── 📁 frontend/                       ← React + Vite + TypeScript
@@ -76,7 +78,6 @@ barrage-flow-manager/
 │   ├── README.md                      ← Index des guides
 │   ├── DOCKER_GUIDE.md                ← Comment utiliser Docker
 │   ├── GITHUB_WORKFLOW.md             ← Branches, commits, PRs
-│   ├── AI_AGENT_GUIDE.md              ← Guide IA pour les Augmenteds
 │   ├── TOOLS_REFERENCE.md             ← Tous les outils du projet
 │   └── conception/                    ← Diagrammes officiels
 │
@@ -92,14 +93,17 @@ barrage-flow-manager/
 
 ---
 
-## 👥 Équipe — Rôles & Responsabilités
+## 👥 Équipe — Version Manuelle
 
-### 🔧 Pôle Développement (Filière IA)
+> 🖊️ Ce projet est réalisé **entièrement à la main**, sans assistance IA.
 
-| Rôle | Membres | Mission | Dossier |
-|------|---------|---------|---------|
-| **Architects** (MERISE) | IGHIL Hassan *(PM)*, IFQUIRNE Yassin, ID BOULAID Abir | MCD/MLD/MPD + SQL manuel | `database/` |
-| **Augmenteds** (IA/Code) | INAK Samia, IRHIL Oussama, ISLAOUINE Mouad | Backend FastAPI + Frontend React | `backend/`, `frontend/` |
+### 🔧 Équipe de Développement (Filière SDBDIA)
+
+| Membre | Rôle | Responsabilités |
+|--------|------|-----------------|
+| **IGHIL Hassan** | PM + Développeur | Conception (MCD), RBAC SQL, coordination projet |
+| **IFQUIRNE Yassine** | Développeur | Conception (MLD), Schema SQL, Triggers, Backend |
+| **ID BOULAID Aabir** | Développeur | Conception (MPD), Procédures SQL, Frontend |
 
 ### 🛡️ Pôle Sécurité & Qualité (Filière SITCN)
 
@@ -109,29 +113,34 @@ barrage-flow-manager/
 | **Blue Team** 🔵 | HRIMICH Reda, IGHRANE Imane | Défense, durcissement, corrections | `security/blue-team/` |
 | **QA** 🧪 | ISKANDER El Mahdi, JAIT Reda | Tests fonctionnels, comparaison IA vs Manuel | `quality/` |
 
+### 📌 Deux Versions du Projet
+
+| Version | Équipe | Repo |
+|---------|--------|------|
+| 🖊️ **Manuelle** (ce repo) | Hassan, Yassine, Aabir | [Barrage-Flow-Manager](https://github.com/HassanIghil/Barrage-Flow-Manager) |
+| 🤖 **IA** | INAK Samia, IRHIL Oussama, ISLAOUINE Mouad | *(repo séparé)* |
+
 ---
 
 ## 🗓️ Calendrier & Phases
 
 ```
-📅 Mars 2026     → Phase 1 : Architects démarrent MCD/MLD/MPD + SQL
-📅 Mars 2026     → Phase 2 : Augmenteds démarrent Backend + Frontend
-📅 Mars-Avril    → Phase 3 : Red/Blue Team audits + QA tests
-📅 07 Avril 2026 → ❄️ GEL DU CODE — Livraison finale
-📅 08-09 Avril   → 🎤 Soutenances
+📅 Mars 2026     → Phase 1 : Conception MERISE (MCD → MLD → MPD)
+📅 Mars 2026     → Phase 2 : Scripts SQL (Schema, Triggers, Procédures)
+📅 Mars 2026     → Phase 3 : Backend FastAPI + Frontend React
+📅 Mars-Avril    → Phase 4 : Red/Blue Team audits + QA tests
+📅 Avril 2026    → 🎤 Soutenances
 ```
-
-> ⚠️ **Les Architects commencent EN PREMIER.** Les Augmenteds attendent la conception validée.
 
 ---
 
 ## 🌿 Workflow Git — Zéro Conflit
 
-| Équipe | Branche | Dossier autorisé |
+| Membre / Équipe | Branche | Dossier autorisé |
 |--------|---------|-----------------|
-| Architects | `feat/database-architects` | `database/` |
-| Augmenteds (Backend) | `feat/backend-api` | `backend/` |
-| Augmenteds (Frontend) | `feat/frontend-dashboard` | `frontend/` |
+| Hassan | `feat/conception`, `feat/database` | `database/`, `docs/` |
+| Yassine | `feat/backend-api` | `database/`, `backend/` |
+| Aabir | `feat/frontend-dashboard` | `database/`, `frontend/` |
 | Red Team | `security/red-team-audit` | `security/red-team/` |
 | Blue Team | `security/blue-team-defense` | `security/blue-team/` |
 | QA | `quality/tests` | `quality/` |

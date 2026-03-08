@@ -13,7 +13,7 @@ Ce dossier contient **toute la partie Base de Données** du projet : la concepti
 database/
 ├── README.md                      ← CE FICHIER
 │
-├── conception/                    ← 🎨 Travail MERISE (MCD, MLD, MPD, UML)
+├── conception/                    ← 🎨 Travail MERISE (MCD, MLD, MPD)
 │   ├── TASKS_HASSAN.md            ← Tâches de Hassan
 │   ├── TASKS_YASSIN.md            ← Tâches de Yassin
 │   ├── TASKS_ABIR.md              ← Tâches de Abir
@@ -33,11 +33,11 @@ database/
 
 | Outil | Utilisation | Lien |
 |-------|-------------|------|
-| **Draw.io (diagrams.net)** | MCD, MLD, MPD, Diagrammes UML | [app.diagrams.net](https://app.diagrams.net) |
+| **Draw.io (diagrams.net)** | MCD, MLD, MPD | [app.diagrams.net](https://app.diagrams.net) |
 | **Looping** | Alternative pour MCD/MLD (MERISE) | [looping-mcd.fr](https://www.looping-mcd.fr) |
 | **MySQL Workbench** | Écriture et test des scripts SQL | [mysql.com/workbench](https://dev.mysql.com/downloads/workbench/) |
 | **phpMyAdmin** | Interface web pour gérer MySQL (via Docker) | Inclus dans Docker |
-| **StarUML** ou **PlantUML** | Diagrammes UML (Cas d'utilisation, Séquence) | [staruml.io](https://staruml.io) |
+
 
 ---
 
@@ -74,7 +74,7 @@ La conception se fait en **4 étapes dans l'ordre** :
 | 3️⃣ | **MPD** (Modèle Physique de Données) | Adaptation pour MySQL (types, index) |
 | 4️⃣ | **Scripts SQL** | CREATE TABLE, Triggers, Procédures |
 
-> **UML** peut être utilisé en complément pour les diagrammes de Cas d'Utilisation et de Séquence (le « métier » du projet).
+> La méthodologie MERISE (MCD → MLD → MPD) est la seule approche de conception requise pour ce projet.
 
 ---
 

@@ -53,10 +53,9 @@
 
 | Outil | Rôle | Documentation |
 |-------|------|---------------|
-| Draw.io (diagrams.net) | MCD, MLD, MPD, UML | [app.diagrams.net](https://app.diagrams.net) |
+| Draw.io (diagrams.net) | MCD, MLD, MPD | [app.diagrams.net](https://app.diagrams.net) |
 | Looping | Alternative MERISE | [looping-mcd.fr](https://www.looping-mcd.fr) |
-| StarUML | Diagrammes UML | [staruml.io](https://staruml.io) |
-| PlantUML | UML en code | [plantuml.com](https://plantuml.com) |
+
 
 ---
 

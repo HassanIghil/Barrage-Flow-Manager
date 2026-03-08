@@ -1,6 +1,6 @@
 # 🐍 Backend — FastAPI (Python)
 
-> **Équipe responsable :** Augmenteds (INAK Samia, IRHIL Oussama, ISLAOUINE Mouad)
+> **Équipe responsable :** Version Manuelle (IGHIL Hassan, IFQUIRNE Yassine, ID BOULAID Aabir)
 > **Branche GitHub :** `feat/backend-api`
 
 Ce dossier contient l'API REST qui connecte le Frontend React à la Base de Données.
