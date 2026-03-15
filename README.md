@@ -9,20 +9,27 @@
 <h3 align="center">Optimisation des lâchers d'eau — Barrage Youssef Ibn Tachfine</h3>
 
 <p align="center">
-  Système d'information critique pour arbitrer entre l'irrigation agricole et la réserve de sécurité/eau potable dans la région Souss-Massa.<br/>
-  <b>🖊️ Ce repo contient la version développée entièrement à la main (sans IA).</b>
+  <b>Solution de gestion hydrique stratégique pour le barrage Youssef Ibn Tachfine.</b><br/>
+  Arbitrage sécurisé entre l'irrigation agricole et les réserves vitales d'eau potable.<br/>
+  <br/>
+  <b>🏆 Partenariat : Intelligence Humaine 🤝 Intelligence Artificielle</b><br/>
+  Projet collaboratif comparant deux approches de développement :<br/>
+  <b>1. Équipe Manuelle (Ce Repo)</b> : Hassan, Yassine, Aabir (Conception MERISE & Code Artisan).<br/>
+  <b>2. Équipe Augmentée (IA)</b> : Samia, Oussama, Mouad (Code Assisté par IA).
 </p>
 
 ---
 
-## 🎯 Objectif du Projet
+## 🎯 Vision & Objectifs
 
-> **Arbitrer entre l'eau destinée à l'irrigation des coopératives agricoles et la réserve de sécurité/eau potable du Barrage Youssef Ibn Tachfine.**
+> "Gérer chaque goutte pour la résilience de notre région."
 
-1. **Protéger la réserve de sécurité** — Ne jamais descendre sous un seuil critique d'eau potable
-2. **Répartir équitablement l'eau** — Entre les différentes coopératives agricoles
-3. **Optimiser les lâchers d'eau** — En fonction du niveau du barrage, des prévisions météo et des besoins agricoles
-4. **Contrôler l'accès (RBAC)** — Seul le Directeur du Barrage peut forcer un lâcher d'eau
+Le système repose sur quatre piliers fondamentaux :
+
+1.  **🛡️ Protection des Réserves Vitales** : Algorithmes de contrôle empêchant le niveau du barrage de descendre sous le seuil critique de l'AEP (Alimentation en Eau Potable).
+2.  **⚖️ Équité de Répartition** : Système de distribution intelligent pour les coopératives agricoles basé sur les surfaces et l'historique de consommation.
+3.  **📊 Aide à la Décision** : Tableau de bord analytique en temps réel (Temps, Pluviométrie, Niveaux) pour optimiser chaque lâcher d'eau.
+4.  **🔒 Sécurité Critique (RBAC)** : Hiérarchie de contrôle stricte garantissant que seul le **Directeur du Barrage** peut autoriser ou forcer des actions d'urgence.
 
 ---
 
@@ -34,8 +41,8 @@
 | 🔌 **Backend API** | FastAPI (Python 3.11+) | REST API avec JWT auth, RBAC |
 | 🗄️ **Base de Données** | MySQL 8.0 | Triggers, procédures stockées, RBAC natif |
 | 🐳 **Containerisation** | Docker + Docker Compose | Environnement de développement unifié |
-| 💬 **Communication** | Slack | Un canal par équipe |
-| 📦 **Versioning** | Git + GitHub | Branches par équipe, zéro conflit |
+| 💬 **Communication** | Slack | Canaux dédiés par pôle (Audit, Dev, QA) |
+| 📦 **Versioning** | Git + GitHub | Workflow strict (PR + Approval) |
 
 ---
 
@@ -97,13 +104,14 @@ barrage-flow-manager/
 
 > 🖊️ Ce projet est réalisé **entièrement à la main**, sans assistance IA.
 
-### 🔧 Équipe de Développement (Filière SDBDIA)
+### 🔧 Développement (Collaboration Full-Stack)
 
-| Membre | Rôle | Responsabilités |
-|--------|------|-----------------|
-| **IGHIL Hassan** | PM + Développeur | Conception (MCD), RBAC SQL, coordination projet |
-| **IFQUIRNE Yassine** | Développeur | Conception (MLD), Schema SQL, Triggers, Backend |
-| **ID BOULAID Aabir** | Développeur | Conception (MPD), Procédures SQL, Frontend |
+Les équipes travaillent en **partenariat total** sur l'ensemble des couches techniques.
+
+| Membres | Focus |
+| :--- | :--- |
+| **Hassan (PM), Yassine, Aabir** | Conception MERISE, Backend FastAPI, Frontend React |
+| **Samia, Oussama, Mouad** | Version IA (Architecture & Code généré) |
 
 ### 🛡️ Pôle Sécurité & Qualité (Filière SITCN)
 
@@ -122,30 +130,38 @@ barrage-flow-manager/
 
 ---
 
-## 🗓️ Calendrier & Phases
+## 🗓️ Phases
 
-```
-📅 Mars 2026     → Phase 1 : Conception MERISE (MCD → MLD → MPD)
-📅 Mars 2026     → Phase 2 : Scripts SQL (Schema, Triggers, Procédures)
-📅 Mars 2026     → Phase 3 : Backend FastAPI + Frontend React
-📅 Mars-Avril    → Phase 4 : Red/Blue Team audits + QA tests
-📅 Avril 2026    → 🎤 Soutenances
-```
+1.  **Conception** : MERISE (MCD → MLD → MPD).
+2.  **Base de Données** : Scripts SQL (Triggers & Procédures).
+3.  **Développement** : Backend FastAPI & Frontend React.
+4.  **Audit & Qualité** : Tests de sécurité et fonctionnels.
+5.  **Livraison** : Avril 2026.
+
+## 💬 Communication (Slack Refactor)
+
+| Canal | Usage | Membres |
+| :--- | :--- | :--- |
+| **`#announcements`** | Communications officielles & Deadlines | Tout le monde |
+| **`#manual-dev-team`** | Discussion technique Version Manuelle | Hassan, Yassine, Aabir |
+| **`#ai-dev-team`** | Coordination avec l'équipe IA | Samia, Oussama, Mouad |
+| **`#pr-reviews`** | Validation des Pull Requests (Hassan) | PM + Devs |
+| **`#security-audit`** | Pôle Sécurité (Red/Blue Team) | SITCN Team |
+| **`#qa-testing`** | Rapports de bugs & Tests | QA Team |
 
 ---
 
-## 🌿 Workflow Git — Zéro Conflit
+## 🌿 Workflow Git
 
-| Membre / Équipe | Branche | Dossier autorisé |
-|--------|---------|-----------------|
-| Hassan | `feat/conception`, `feat/database` | `database/`, `docs/` |
-| Yassine | `feat/backend-api` | `database/`, `backend/` |
-| Aabir | `feat/frontend-dashboard` | `database/`, `frontend/` |
-| Red Team | `security/red-team-audit` | `security/red-team/` |
-| Blue Team | `security/blue-team-defense` | `security/blue-team/` |
-| QA | `quality/tests` | `quality/` |
+| Branche | Usage |
+| :--- | :--- |
+| `main` | Production & Merges officiels |
+| `feat/conception-*` | Travaux de conception MERISE |
+| `feat/backend-*` | Développement de l'API |
+| `feat/frontend-*` | Développement de l'interface |
+| `security/*` | Audits et correctifs de sécurité |
 
-> 📖 Voir `docs/GITHUB_WORKFLOW.md` pour le guide complet.
+> 📖 Voir `docs/GITHUB_WORKFLOW.md` pour les détails.
 
 ---
 
