@@ -126,7 +126,7 @@ Les équipes travaillent en **partenariat total** sur l'ensemble des couches tec
 | Version | Équipe | Repo |
 |---------|--------|------|
 | 🖊️ **Manuelle** (ce repo) | Hassan, Yassine, Aabir | [Barrage-Flow-Manager](https://github.com/HassanIghil/Barrage-Flow-Manager) |
-| 🤖 **IA** | INAK Samia, IRHIL Oussama, ISLAOUINE Mouad | *(repo séparé)* |
+| 🤖 **IA** | INAK Samia, IRHIL Oussama, ISLAOUINE Mouad | [Barrage-Flow-Manager-AI-version](https://github.com/HassanIghil/barrage-flow-manager-ai-version) |
 
 ---
 
