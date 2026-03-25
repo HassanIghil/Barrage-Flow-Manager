@@ -1,0 +1,45 @@
+version: '3.8'
+
+services:
+  # ---- Base de données MySQL ----
+  db:
+    image: mysql:8.0
+    container_name: barrage-db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      # Cette ligne magique va exécuter automatiquement tous tes scripts SQL (1 à 5) 
+      # à la création du conteneur dans l'ordre alphabétique !
+      - ./database/sql:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ---- phpMyAdmin (interface web pour voir tes données) ----
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: barrage-phpmyadmin
+    restart: always
+    environment:
+      PMA_HOST: db
+      PMA_USER: ${PMA_USER}
+      PMA_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    ports:
+      - "8080:80"
+    depends_on:
+      - db
+
+  # NOTE: Les services Backend et Frontend seront ajoutés ici plus tard 
+  # quand on commencera le code FastAPI/React.
+
+volumes:
+  mysql_data:
