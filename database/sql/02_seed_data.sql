@@ -19,7 +19,7 @@ VALUES ('Youssef Ibn Tachfine', 'Province de Tiznit, Souss-Massa', 300000000, 18
 INSERT INTO utilisateur (nom, prenom, email, password, role) VALUES
 ('IGHIL',    'Hassan',   'directeur@barrage-yt.ma',  '$2b$12$LJ3m9X5z0Yq8K1v2W7sXxO3nR4tP6wA8zC0dF2gH4jK6lN8pQ0rS', 'directeur'),
 ('IFQUIRNE', 'Yassine',  'yassine@barrage-yt.ma',    '$2b$12$LJ3m9X5z0Yq8K1v2W7sXxO3nR4tP6wA8zC0dF2gH4jK6lN8pQ0rS', 'ingenieur'),
-('BOULAID',  'Aabir',    'aabir@barrage-yt.ma',      '$2b$12$LJ3m9X5z0Yq8K1v2W7sXxO3nR4tP6wA8zC0dF2gH4jK6lN8pQ0rS', 'operateur'),
+('BOULAID',  'Aabir',    'aabir@barrage-yt.ma',      '$2b$12$LJ3m9X5z0Yq8K1v2W7sXxO3nR4tP6wA8zC0dF2gH4jK6lN8pQ0rS', 'operateur');
 
 -- ============================================================
 -- COOPERATIVES AGRICOLES (5 coopératives Souss-Massa)
