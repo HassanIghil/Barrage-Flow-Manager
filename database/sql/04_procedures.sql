@@ -29,12 +29,8 @@ BEGIN
         END IF;
 
         -- Insertion de la répartition proportionnelle
-        INSERT INTO repartition (id_lacher, id_coop, volume_attribue_m3)
-        SELECT p_id_lacher, v_id_coop, v_volume_total * (v_surface / v_surface_totale)
-        WHERE NOT EXISTS (
-            SELECT 1 FROM repartition 
-            WHERE id_lacher = p_id_lacher AND id_coop = v_id_coop
-        );
+        INSERT IGNORE INTO repartition (id_lacher, id_coop, volume_attribue_m3)
+        VALUES (p_id_lacher, v_id_coop, v_volume_total * (v_surface / v_surface_totale));
     END LOOP;
 
     CLOSE coop_cursor;
