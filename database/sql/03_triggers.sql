@@ -30,15 +30,32 @@ END //
 
 -- ============================================================
 -- Trigger 2 : trg_after_lacher_update_niveau
--- Met à jour le niveau d'eau du barrage après un lâcher
+-- Met à jour le niveau d'eau du barrage après un lâcher exécuté
 -- ============================================================
 CREATE TRIGGER trg_after_lacher_update_niveau
 AFTER INSERT ON lacher_eau
 FOR EACH ROW
 BEGIN
-    UPDATE barrage 
-    SET niveau_eau_m3 = niveau_eau_m3 - NEW.volume_m3 
-    WHERE id_barrage = NEW.id_barrage;
+    IF NEW.status = 'execute' THEN
+        UPDATE barrage 
+        SET niveau_eau_m3 = niveau_eau_m3 - NEW.volume_m3 
+        WHERE id_barrage = NEW.id_barrage;
+    END IF;
+END //
+
+-- ============================================================
+-- Trigger 2.5 : trg_after_lacher_update_status
+-- Si on approuve/exécute un lâcher qui était en attente
+-- ============================================================
+CREATE TRIGGER trg_after_lacher_update_status
+AFTER UPDATE ON lacher_eau
+FOR EACH ROW
+BEGIN
+    IF NEW.status = 'execute' AND OLD.status != 'execute' THEN
+        UPDATE barrage 
+        SET niveau_eau_m3 = niveau_eau_m3 - NEW.volume_m3 
+        WHERE id_barrage = NEW.id_barrage;
+    END IF;
 END //
 
 -- ============================================================
