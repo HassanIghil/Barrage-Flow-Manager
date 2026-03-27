@@ -5,7 +5,8 @@ from typing import Optional
 class ReleaseBase(BaseModel):
     volume_m3: float = Field(..., gt=0)
     type: str = "normal"
-    motif: Optional[str] = None
+    # OWASP A03 : Limiter la taille du texte pour éviter les injections massives
+    motif: Optional[str] = Field(None, max_length=500)
     id_barrage: int
 
 class ReleaseRequest(ReleaseBase):
