@@ -24,9 +24,11 @@ class Settings(BaseSettings):
     MYSQL_USER: str
     MYSQL_PASSWORD: str
     MYSQL_DATABASE:str
+    MYSQL_HOST: str = "localhost" # "db" dans Docker
+    
     @property
     def DATABASE_URL(self)-> str:
-        return f"mysql+pymysql://{self.MYSQL_USER}:{self.MYSQL_PASSWORD}@localhost:3306/{self.MYSQL_DATABASE}"
+        return f"mysql+pymysql://{self.MYSQL_USER}:{self.MYSQL_PASSWORD}@{self.MYSQL_HOST}:3306/{self.MYSQL_DATABASE}"
 
 
     class Config:

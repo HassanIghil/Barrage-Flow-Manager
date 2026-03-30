@@ -2,12 +2,16 @@ from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 from sqlalchemy import text
 from app.core.database import get_db
+from app.middleware.rbac import role_checker
 
 router = APIRouter()
 
 # 🔹 GET /api/dashboard/overview
 @router.get("/api/dashboard/overview")
-def get_dashboard_overview(db: Session = Depends(get_db)):
+def get_dashboard_overview(
+    payload: dict = Depends(role_checker(["directeur", "ingenieur", "operateur"])),
+    db: Session = Depends(get_db)
+):
     
     result = db.execute(text("CALL sp_dashboard_stats()"))
 
@@ -27,7 +31,10 @@ def get_dashboard_overview(db: Session = Depends(get_db)):
 
 # 🔹 GET /api/dashboard/history
 @router.get("/api/dashboard/history")
-def get_dashboard_history(db: Session = Depends(get_db)):
+def get_dashboard_history(
+    payload: dict = Depends(role_checker(["directeur", "ingenieur", "operateur"])),
+    db: Session = Depends(get_db)
+):
 
     result = db.execute(text("SELECT * FROM v_historique_lachers"))
 

@@ -38,8 +38,19 @@ services:
     depends_on:
       - db
 
-  # NOTE: Les services Backend et Frontend seront ajoutés ici plus tard 
-  # quand on commencera le code FastAPI/React.
-
+  # ---- Backend API (FastAPI) ----
+  backend:
+    build: ./backend
+    container_name: barrage-backend
+    restart: always
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    environment:
+      - MYSQL_HOST=db
+    depends_on:
+      db:
+        condition: service_healthy
 volumes:
   mysql_data:

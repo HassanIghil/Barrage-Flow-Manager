@@ -2,12 +2,16 @@ from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 from sqlalchemy import text
 from app.core.database import get_db
+from app.middleware.rbac import role_checker
 
 router = APIRouter()
 
 # 🔹 GET /api/alerts/recent
 @router.get("/api/alerts/recent")
-def get_recent_alerts(db: Session = Depends(get_db)):
+def get_recent_alerts(
+    payload: dict = Depends(role_checker(["directeur", "ingenieur", "operateur"])),
+    db: Session = Depends(get_db)
+):
 
     result = db.execute(text("""
         SELECT *

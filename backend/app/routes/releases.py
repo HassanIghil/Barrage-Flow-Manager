@@ -4,7 +4,7 @@ from sqlalchemy import text
 from app.core.database import get_db
 from app.models.lacher_eau import LacherEau
 from app.middleware.rbac import role_checker
-from pydantic import BaseModel
+from app.schemas.release import ReleaseRequest
 from datetime import date
 
 router = APIRouter(
@@ -12,22 +12,15 @@ router = APIRouter(
     tags=["Releases"]
 )
 
-# --------------------------
-# Schemas Pydantic
-# --------------------------
-class LacherCreate(BaseModel):
-    volume_m3: float
-    type: str = "normal"
-    motif: str | None = None
-    id_barrage: int
+# (Schémas Pydantic importés depuis app.schemas.release pour la sécurisation OWASP)
 
 # --------------------------
 # Route POST /api/releases
 # --------------------------
 @router.post("/", status_code=201)
 def create_lacher(
-    lacher_data: LacherCreate,
-    payload: dict = Depends(role_checker(["Ingénieur", "Directeur"])),
+    lacher_data: ReleaseRequest,
+    payload: dict = Depends(role_checker(["ingenieur", "directeur"])),
     db: Session = Depends(get_db)
 ):
     """
@@ -41,7 +34,7 @@ def create_lacher(
         motif=lacher_data.motif,
         status="en_attente",
         date_lacher=date.today(),
-        id_user=payload["id_user"],
+        id_user=payload["id"],
         id_barrage=lacher_data.id_barrage
     )
 
@@ -58,7 +51,7 @@ def create_lacher(
 @router.put("/{id_lacher}/execute")
 def execute_lacher(
     id_lacher: int,
-    payload: dict = Depends(role_checker(["Directeur"])),
+    payload: dict = Depends(role_checker(["directeur"])),
     db: Session = Depends(get_db)
 ):
     """
