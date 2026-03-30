@@ -17,9 +17,9 @@ VALUES ('Youssef Ibn Tachfine', 'Province de Tiznit, Souss-Massa', 300000000, 18
 -- Mots de passe hashés avec bcrypt (valeur = "password123")
 -- ============================================================
 INSERT INTO utilisateur (nom, prenom, email, password, role) VALUES
-('IGHIL',    'Hassan',   'directeur@barrage-yt.ma',  '$2b$12$LJ3m9X5z0Yq8K1v2W7sXxO3nR4tP6wA8zC0dF2gH4jK6lN8pQ0rS', 'directeur'),
-('IFQUIRNE', 'Yassine',  'yassine@barrage-yt.ma',    '$2b$12$LJ3m9X5z0Yq8K1v2W7sXxO3nR4tP6wA8zC0dF2gH4jK6lN8pQ0rS', 'ingenieur'),
-('BOULAID',  'Aabir',    'aabir@barrage-yt.ma',      '$2b$12$LJ3m9X5z0Yq8K1v2W7sXxO3nR4tP6wA8zC0dF2gH4jK6lN8pQ0rS', 'operateur');
+('IGHIL',    'Hassan',   'directeur@barrage-yt.ma',  '$2b$12$oSZMqs3XMRgy9M1DSidI5Oxu78NoMSxzuCj7pI7iVsJZn7BmqhcVK', 'directeur'),  --password = paswwrod123
+('IFQUIRNE', 'Yassine',  'yassine@barrage-yt.ma',    '$2b$12$oSZMqs3XMRgy9M1DSidI5Oxu78NoMSxzuCj7pI7iVsJZn7BmqhcVK', 'ingenieur'),  --password = paswwrod123
+('BOULAID',  'Aabir',    'aabir@barrage-yt.ma',      '$2b$12$oSZMqs3XMRgy9M1DSidI5Oxu78NoMSxzuCj7pI7iVsJZn7BmqhcVK', 'operateur');  --password = paswwrod123
 
 -- ============================================================
 -- COOPERATIVES AGRICOLES (5 coopératives Souss-Massa)
