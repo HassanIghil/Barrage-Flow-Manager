@@ -1,19 +1,20 @@
 from datetime import datetime, timedelta, timezone
 import jwt
-from passlib.context import CryptContext
+import bcrypt
 from app.core.config import settings
 
-#configuration du "Hasher" de mots de passe(Algorithme bcrypt)
-pwd_context = CryptContext(schemes=["bcrypt"],deprecated="auto")
-
 #fonction pour verifier si un mot de passe tapé  est correspond au Hash en BD
-def verify_password(plain_password:str, hashed_password:str) -> bool:
-    return pwd_context.verify(plain_password,hashed_password)
+def verify_password(plain_password: str, hashed_password: str) -> bool:
+    try:
+        return bcrypt.checkpw(plain_password.encode('utf-8'), hashed_password.encode('utf-8'))
+    except Exception:
+        return False
 
 
 #fonction pour hasher un nouveau mot de passe
 def get_password_hash(password: str) -> str:
-    return pwd_context.hash(password)
+    salt = bcrypt.gensalt()
+    return bcrypt.hashpw(password.encode('utf-8'), salt).decode('utf-8')
 
 #fonction pour Generer le JWT (expire en 60 minutes)
 def create_access_token(data: dict) -> str:

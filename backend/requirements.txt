@@ -2,7 +2,8 @@ fastapi
 uvicorn
 pymysql
 sqlalchemy
-passlib[bcrypt]
+bcrypt
 pyjwt
 pydantic-settings
 email-validator
+cryptography
