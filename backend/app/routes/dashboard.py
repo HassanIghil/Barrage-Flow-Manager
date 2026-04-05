@@ -3,6 +3,8 @@ from sqlalchemy.orm import Session
 from sqlalchemy import text
 from app.core.database import get_db
 from app.middleware.rbac import role_checker
+from app.schemas.dashboard import DashboardResponse, DashboardSummary, WaterLevelPoint
+from datetime import date
 
 router = APIRouter()
 
@@ -14,19 +16,26 @@ def get_dashboard_overview(
 ):
     
     result = db.execute(text("CALL sp_dashboard_stats()"))
+    row = result.fetchone()
 
-    data = []
-    for row in result:
-        data.append({
-            "barrage": row.barrage,
-            "niveau_eau_m3": float(row.niveau_eau_m3),
-            "capacite_max_m3": float(row.capacite_max_m3),
-            "pourcentage_remplissage": float(row.pourcentage_remplissage),
-            "nb_alertes_critiques": row.nb_alertes_critiques,
-            "nb_demandes_en_attente": row.nb_demandes_en_attente
-        })
+    # Simulation de l'historique des 5 derniers jours
+    history_points = [
+        {"date": "01/04", "volume_m3": float(row.niveau_eau_m3) * 0.95},
+        {"date": "02/04", "volume_m3": float(row.niveau_eau_m3) * 0.96},
+        {"date": "03/04", "volume_m3": float(row.niveau_eau_m3) * 0.94},
+        {"date": "04/04", "volume_m3": float(row.niveau_eau_m3) * 0.98},
+        {"date": "Actuel", "volume_m3": float(row.niveau_eau_m3)}
+    ]
 
-    return data
+    return [{
+        "barrage": row.barrage,
+        "niveau_eau_m3": float(row.niveau_eau_m3),
+        "capacite_max_m3": float(row.capacite_max_m3),
+        "pourcentage_remplissage": float(row.pourcentage_remplissage),
+        "nb_alertes_critiques": row.nb_alertes_critiques,
+        "nb_demandes_en_attente": row.nb_demandes_en_attente,
+        "level_history": history_points
+    }]
 
 
 # 🔹 GET /api/dashboard/history

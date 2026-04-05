@@ -5,6 +5,8 @@ from app.routes.users import router as users_router
 from app.routes.dashboard import router as dashboard_router
 from app.routes.alerts import router as alerts_router
 from app.routes.releases import router as releases_router
+from app.routes.irrigation import router as irrigation_router
+from app.routes.management import router as management_router
 
 app = FastAPI(title="Barrage-Flow-Manager API")
 
@@ -28,4 +30,6 @@ app.include_router(users_router, prefix="/api/users", tags=["Utilisateurs"])
 app.include_router(dashboard_router, tags=["Dashboard"])
 app.include_router(alerts_router, tags=["Alertes"])
 app.include_router(releases_router)
+app.include_router(irrigation_router)
+app.include_router(management_router)
 

@@ -1,10 +1,11 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from app.core.database import get_db
-from app.core.security import get_password_hash
+from app.core.security import get_password_hash, verify_password
 from app.models.user import User
-from app.schemas.user import UserCreate, UserRead
+from app.schemas.user import UserCreate, UserRead, UserUpdate
 from app.middleware.rbac import role_checker
+from typing import List
 
 router = APIRouter()
 
@@ -50,3 +51,68 @@ def get_my_profile(
         raise HTTPException(status_code=404, detail="Utilisateur non trouvé")
 
     return user
+
+# Route 3 : Modifier mon mot de passe
+@router.post("/change-password")
+def change_password(
+    old_password: str,
+    new_password: str,
+    payload: dict = Depends(role_checker(["directeur", "ingenieur", "operateur"])),
+    db: Session = Depends(get_db)
+):
+    # Récupérer l'utilisateur connecté
+    user = db.query(User).filter(User.id_user == payload["id"]).first()
+    if not user:
+        raise HTTPException(status_code=404, detail="Utilisateur non trouvé")
+
+    # Vérifier l'ancien mot de passe
+    if not verify_password(old_password, user.password):
+        raise HTTPException(status_code=400, detail="Ancien mot de passe incorrect")
+
+    # Hasher et mettre à jour le mot de passe
+    user.password = get_password_hash(new_password)
+    db.commit()
+
+    return {"message": "Mot de passe mis à jour avec succès"}
+
+# ------------------------------------------------------------
+# ROUTES D'ADMINISTRATION (RÉSERVÉES AU DIRECTEUR)
+# ------------------------------------------------------------
+
+# Route 4 : Lister tous les utilisateurs
+@router.get("/", response_model=List[UserRead], dependencies=[Depends(role_checker(["directeur"]))])
+def get_all_users(db: Session = Depends(get_db)):
+    return db.query(User).all()
+
+# Route 5 : Modifier un utilisateur par son ID
+@router.put("/{id_user}", response_model=UserRead, dependencies=[Depends(role_checker(["directeur"]))])
+def update_user(id_user: int, user_update: UserUpdate, db: Session = Depends(get_db)):
+    user = db.query(User).filter(User.id_user == id_user).first()
+    if not user:
+        raise HTTPException(status_code=404, detail="Utilisateur non trouvé")
+    
+    # On met à jour seulement les champs fournis (Partial Update)
+    if user_update.nom: user.nom = user_update.nom
+    if user_update.prenom: user.prenom = user_update.prenom
+    if user_update.email: 
+        # Vérifier si l'email n'est pas déjà pris par quelqu'un d'autre
+        check_email = db.query(User).filter(User.email == user_update.email, User.id_user != id_user).first()
+        if check_email:
+            raise HTTPException(status_code=400, detail="Cet email est déjà utilisé par un autre compte")
+        user.email = user_update.email
+    if user_update.role: user.role = user_update.role.value
+
+    db.commit()
+    db.refresh(user)
+    return user
+
+# Route 6 : Supprimer un utilisateur
+@router.delete("/{id_user}", dependencies=[Depends(role_checker(["directeur"]))])
+def delete_user(id_user: int, db: Session = Depends(get_db)):
+    user = db.query(User).filter(User.id_user == id_user).first()
+    if not user:
+        raise HTTPException(status_code=404, detail="Utilisateur non trouvé")
+    
+    db.delete(user)
+    db.commit()
+    return {"message": f"L'utilisateur {id_user} a été supprimé"}

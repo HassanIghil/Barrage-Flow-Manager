@@ -4,22 +4,24 @@
 -- Auteur  : Hassan IGHIL
 -- ============================================================
 
+SET NAMES utf8mb4;
+
 USE barrage_flow_manager;
 
 -- ============================================================
 -- BARRAGE — Youssef Ibn Tachfine
 -- ============================================================
 INSERT INTO barrage (nom, localisation, capacite_max_m3, niveau_eau_m3, seuil_securite_m3, date_mise_service)
-VALUES ('Youssef Ibn Tachfine', 'Province de Tiznit, Souss-Massa', 300000000, 180000000, 50000000, '1972-01-01');
+VALUES ('Youssef Ibn Tachfine', 'Province de Tiznit, Souss-Massa', 300000000, 250000000, 50000000, '1972-01-01');
 
 -- ============================================================
 -- UTILISATEURS (4 comptes)
 -- Mots de passe hashés avec bcrypt (valeur = "password123")
 -- ============================================================
 INSERT INTO utilisateur (nom, prenom, email, password, role) VALUES
-('IGHIL',    'Hassan',   'directeur@barrage-yt.ma',  '$2b$12$oSZMqs3XMRgy9M1DSidI5Oxu78NoMSxzuCj7pI7iVsJZn7BmqhcVK', 'directeur'),  --password = paswwrod123
-('IFQUIRNE', 'Yassine',  'yassine@barrage-yt.ma',    '$2b$12$oSZMqs3XMRgy9M1DSidI5Oxu78NoMSxzuCj7pI7iVsJZn7BmqhcVK', 'ingenieur'),  --password = paswwrod123
-('BOULAID',  'Aabir',    'aabir@barrage-yt.ma',      '$2b$12$oSZMqs3XMRgy9M1DSidI5Oxu78NoMSxzuCj7pI7iVsJZn7BmqhcVK', 'operateur');  --password = paswwrod123
+('IGHIL',    'Hassan',   'directeur@barrage-yt.ma',  '$2b$12$oSZMqs3XMRgy9M1DSidI5Oxu78NoMSxzuCj7pI7iVsJZn7BmqhcVK', 'directeur'),  -- password = paswwrod123
+('IFQUIRNE', 'Yassine',  'yassine@barrage-yt.ma',    '$2b$12$oSZMqs3XMRgy9M1DSidI5Oxu78NoMSxzuCj7pI7iVsJZn7BmqhcVK', 'ingenieur'),  -- password = paswwrod123
+('BOULAID',  'Aabir',    'aabir@barrage-yt.ma',      '$2b$12$oSZMqs3XMRgy9M1DSidI5Oxu78NoMSxzuCj7pI7iVsJZn7BmqhcVK', 'operateur');  -- password = paswwrod123
 
 -- ============================================================
 -- COOPERATIVES AGRICOLES (5 coopératives Souss-Massa)

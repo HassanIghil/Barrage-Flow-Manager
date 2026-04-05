@@ -1,6 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 from sqlalchemy import text
+from sqlalchemy.exc import InternalError, IntegrityError, OperationalError
 from app.core.database import get_db
 from app.models.lacher_eau import LacherEau
 from app.middleware.rbac import role_checker
@@ -38,9 +39,25 @@ def create_lacher(
         id_barrage=lacher_data.id_barrage
     )
 
-    db.add(nouveau_lacher)
-    db.commit()
-    db.refresh(nouveau_lacher)
+    try:
+        db.add(nouveau_lacher)
+        db.commit()
+        db.refresh(nouveau_lacher)
+    except (InternalError, IntegrityError, OperationalError) as e:
+        db.rollback()
+        error_msg = str(e.orig) if hasattr(e, 'orig') else str(e)
+        
+        # Détection du code d'erreur 1644 (SIGNAL SQLSTATE)
+        if "1644" in error_msg:
+             # On renvoie un message propre sans Mojibake
+             if "seuil de s" in error_msg or "seuil de sécurité" in error_msg:
+                  raise HTTPException(status_code=400, detail="Lâcher refusé : le niveau resterait sous le seuil de sécurité.")
+             raise HTTPException(status_code=400, detail="Opération refusée par les contraintes de sécurité de la base de données.")
+        
+        raise HTTPException(status_code=400, detail="Erreur d'intégrité : vérifiez les paramètres du lâcher.")
+    except Exception as e:
+        db.rollback()
+        raise HTTPException(status_code=500, detail=f"Erreur interne : {str(e)}")
 
     return {"message": "Demande de lâcher créée", "id_lacher": nouveau_lacher.id_lacher}
 
