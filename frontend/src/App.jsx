@@ -1,34 +1,29 @@
 import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
-import ProtectedRoute from './components/ProtectedRoute';
 import MainLayout from './layouts/MainLayout';
-import Login from './pages/Login';
+import Dashboard from './pages/Dashboard';
+import Alerts from './pages/Alerts';
 import Profile from './pages/Profile';
-import { useAuth } from './context/AuthContext';
+
+// ⚠️  AUTH BYPASSED FOR DESIGN TESTING — re-enable ProtectedRoute when done
 
 const App = () => {
-  const { user } = useAuth();
-
   return (
     <Routes>
-      <Route path="/login" element={!user ? <Login /> : <Navigate to="/" />} />
-
-      {/* Pages Sécurisées (Routes Protégées avec Layout) */}
-      <Route element={<ProtectedRoute />}>
-        <Route element={<MainLayout />}>
-          <Route path="/" element={<div className="text-white font-bold text-4xl">Dashboard Content Coming Soon...</div>} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/releases" element={<div className="text-white font-bold text-4xl">Releases Content Coming Soon...</div>} />
-          <Route path="/alerts" element={<div className="text-white font-bold text-4xl">Alerts Monitoring Coming Soon...</div>} />
-          
-          {/* Route Directeur uniquement */}
-          <Route element={<ProtectedRoute allowedRoles={['directeur']} />}>
-            <Route path="/users" element={<div className="text-white font-bold text-3xl">Gestion des Agents</div>} />
-          </Route>
-        </Route>
+      <Route element={<MainLayout />}>
+        <Route path="/" element={<Dashboard />} />
+        <Route path="/alerts" element={<Alerts />} />
+        <Route path="/profile" element={<Profile />} />
+        <Route path="/releases" element={
+          <div className="flex-1 flex items-center justify-center bg-[#0B132B]">
+            <div className="text-center">
+              <p className="text-[#00CED1] font-black text-6xl mb-4">💧</p>
+              <p className="text-white font-bold text-2xl">Releases Coming Soon</p>
+              <p className="text-slate-400 text-sm mt-2">Water release management module is under development.</p>
+            </div>
+          </div>
+        } />
       </Route>
-
-      {/* Redirection automatique vers / si inconnu */}
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );
