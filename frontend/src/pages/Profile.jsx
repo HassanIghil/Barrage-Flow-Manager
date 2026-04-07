@@ -71,10 +71,18 @@ const TABS = [
 const Profile = () => {
     const { user } = useAuth();
     const [activeTab, setActiveTab] = useState('info');
-    const [stats, setStats] = useState({ demandes: 0, lachers: 0, alertes: 0 });
+    const [stats, setStats] = useState({ demandes: 0, lachers: 0, alertes: 0, coops: 0 });
     const [isPassModalOpen, setIsPassModalOpen] = useState(false);
     const [passForm, setPassForm] = useState({ old: '', new: '', confirm: '' });
     const [passStatus, setPassStatus] = useState({ type: '', msg: '' });
+
+    // Interactive Toggles State
+    const [securityPrefs, setSecurityPrefs] = useState({
+        twoFA: true,
+        regionSync: true,
+        notifs: true,
+        highRes: false
+    });
 
     useEffect(() => {
         const fetchStats = async () => {
@@ -91,7 +99,11 @@ const Profile = () => {
                 const history = await apiRequest('/dashboard/history');
                 const lCount = (history || []).length;
 
-                setStats({ demandes: dCount, lachers: lCount, alertes: aCount });
+                setStats({ demandes: dCount, lachers: lCount, alertes: aCount, coops: stats.coops });
+
+                // Fetch real coops count
+                const coopsRes = await apiRequest('/admin/management/cooperatives');
+                setStats(prev => ({ ...prev, coops: (coopsRes || []).length }));
             } catch (err) {
                 console.error("Failed to load real-time stats", err);
             }
@@ -133,9 +145,9 @@ const Profile = () => {
     const currentTab = TABS.find(t => t.id === activeTab);
 
     const securityRows = [
-        { icon: <LockIcon />, label: 'Authentification 2FA', sub: 'SMS + Authenticator', active: true },
-        { icon: <GlobeIcon />, label: 'Autorité Régionale', sub: 'MENA — Maroc', active: true },
-        { icon: <BellIcon />, label: 'Notifications', sub: 'Email & Push activés', active: true },
+        { icon: <LockIcon />, label: 'Authentification 2FA', sub: 'SMS + Authenticator', toggle: true, key: 'twoFA' },
+        { icon: <GlobeIcon />, label: 'Autorité Régionale', sub: 'MENA — Maroc', toggle: true, key: 'regionSync' },
+        { icon: <BellIcon />, label: 'Notifications', sub: 'Email & Push activés', toggle: true, key: 'notifs' },
         { icon: <HistoryIcon />, label: 'Historique de Connexion', sub: 'Dernière: Marrakech, 04:12', active: false },
     ];
 
@@ -143,7 +155,7 @@ const Profile = () => {
         { icon: <LangIcon />, label: 'Langue', sub: 'Français · Arabe (MA)', badge: null },
         { icon: <MapIcon />, label: 'Fuseau Horaire', sub: 'Africa/Casablanca (UTC+1)', badge: null },
         { icon: <AwardIcon />, label: 'Certification', sub: 'Niveau 4 Hydro-Engineering', badge: 'Valide' },
-        { icon: <UsersIcon />, label: 'Coopératives Couvertes', sub: '24 coopératives · 2 800 Ha', badge: null },
+        { icon: <UsersIcon />, label: 'Coopératives Couvertes', sub: `${stats.coops} coopératives · Gérées`, badge: null },
     ];
 
     const roleMeta = {
@@ -354,6 +366,22 @@ const Profile = () => {
                 .pm-status { padding: 12px; border-radius: 12px; font-size: 12px; text-align: center; margin-bottom: 16px; font-weight: 600; }
                 .pm-status.error { background: #fee2e2; color: #dc2626; }
                 .pm-status.success { background: #d1fae5; color: #059669; }
+
+                /* TOGGLE CSS */
+                .le-switch {
+                    position: relative; display: inline-block; width: 32px; height: 18px; flex-shrink: 0;
+                }
+                .le-switch input { opacity: 0; width: 0; height: 0; }
+                .le-slider {
+                    position: absolute; cursor: pointer; inset: 0; background-color: #CBD8DB;
+                    transition: .4s; border-radius: 34px;
+                }
+                .le-slider:before {
+                    position: absolute; content: ""; height: 12px; width: 12px; left: 3px; bottom: 3px;
+                    background-color: white; transition: .4s; border-radius: 50%;
+                }
+                input:checked + .le-slider { background-color: #00C8AE; }
+                input:checked + .le-slider:before { transform: translateX(14px); }
             `}</style>
 
             <div className="pr-root">
@@ -408,7 +436,24 @@ const Profile = () => {
                         {activeTab === 'security' && (
                             <div className="pr-rows">
                                 {securityRows.map((r, i) => (
-                                    <div key={i} className="pr-row" onClick={r.action}><div style={{ flex: 1 }}><div className="pr-row-name">{r.label}</div><div className="pr-row-sub">{r.sub}</div></div>{r.active && <span className="pr-badge">Actif</span>}</div>
+                                    <div key={i} className="pr-row" onClick={r.action}>
+                                        <div style={{ flex: 1 }}>
+                                            <div className="pr-row-name">{r.label}</div>
+                                            <div className="pr-row-sub">{r.sub}</div>
+                                        </div>
+                                        {r.toggle ? (
+                                            <label className="le-switch">
+                                                <input 
+                                                    type="checkbox" 
+                                                    checked={securityPrefs[r.key]} 
+                                                    onChange={() => setSecurityPrefs({...securityPrefs, [r.key]: !securityPrefs[r.key]})}
+                                                />
+                                                <span className="le-slider"></span>
+                                            </label>
+                                        ) : (
+                                            r.active && <span className="pr-badge">Historique</span>
+                                        )}
+                                    </div>
                                 ))}
                             </div>
                         )}

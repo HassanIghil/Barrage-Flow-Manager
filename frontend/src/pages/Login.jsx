@@ -166,9 +166,9 @@ const Login = () => {
                     <div className="brand-logo">
                         <div className="brand-icon">
                             <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
-                                <path d="M3 16 Q6 10 11 12 Q16 14 19 6" stroke="white" strokeWidth="2.2" strokeLinecap="round" fill="none"/>
-                                <circle cx="11" cy="17" r="2.5" fill="rgba(255,255,255,0.5)"/>
-                                <path d="M5 19 H17" stroke="rgba(255,255,255,0.3)" strokeWidth="1.5" strokeLinecap="round"/>
+                                <path d="M3 16 Q6 10 11 12 Q16 14 19 6" stroke="white" strokeWidth="2.2" strokeLinecap="round" fill="none" />
+                                <circle cx="11" cy="17" r="2.5" fill="rgba(255,255,255,0.5)" />
+                                <path d="M5 19 H17" stroke="rgba(255,255,255,0.3)" strokeWidth="1.5" strokeLinecap="round" />
                             </svg>
                         </div>
                         <span className="brand-name">AquaFlow&nbsp;|&nbsp;Taroudant</span>
@@ -177,30 +177,30 @@ const Login = () => {
                     <div className="left-center">
                         <div className="dam-illustration">
                             <svg viewBox="0 0 360 220" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <ellipse cx="180" cy="80" rx="160" ry="40" fill="rgba(0,180,160,0.08)"/>
-                                <path d="M100 160 L120 60 L240 60 L260 160 Z" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.12)" strokeWidth="1.5"/>
-                                <path d="M120 60 L240 60 L238 65 L122 65 Z" fill="rgba(0,200,174,0.15)"/>
-                                <path d="M60 82 Q120 70 180 78 Q240 86 300 74 L300 110 Q240 122 180 114 Q120 106 60 118 Z" fill="rgba(0,180,160,0.12)"/>
-                                <path d="M60 82 Q120 70 180 78 Q240 86 300 74" stroke="rgba(0,200,174,0.4)" strokeWidth="1.5" fill="none"/>
-                                <circle cx="180" cy="78" r="3" fill="#00C8AE" opacity="0.8"/>
-                                <circle cx="180" cy="78" r="6" fill="none" stroke="#00C8AE" strokeWidth="1" opacity="0.3"/>
+                                <ellipse cx="180" cy="80" rx="160" ry="40" fill="rgba(0,180,160,0.08)" />
+                                <path d="M100 160 L120 60 L240 60 L260 160 Z" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.12)" strokeWidth="1.5" />
+                                <path d="M120 60 L240 60 L238 65 L122 65 Z" fill="rgba(0,200,174,0.15)" />
+                                <path d="M60 82 Q120 70 180 78 Q240 86 300 74 L300 110 Q240 122 180 114 Q120 106 60 118 Z" fill="rgba(0,180,160,0.12)" />
+                                <path d="M60 82 Q120 70 180 78 Q240 86 300 74" stroke="rgba(0,200,174,0.4)" strokeWidth="1.5" fill="none" />
+                                <circle cx="180" cy="78" r="3" fill="#00C8AE" opacity="0.8" />
+                                <circle cx="180" cy="78" r="6" fill="none" stroke="#00C8AE" strokeWidth="1" opacity="0.3" />
                             </svg>
                         </div>
 
-                        <h1 className="left-headline">Gestionnaire de Flux<br/><span>d'Eau Régional</span></h1>
+                        <h1 className="left-headline">Gestionnaire de Flux<br /><span>d'Eau Régional</span></h1>
                         <p className="left-desc">Surveillez et contrôlez l'infrastructure des barrages à travers le bassin Souss-Massa en temps réel.</p>
 
                         <div className="stats-row">
                             <div className="stat-item"><span className="stat-value">14</span><span className="stat-label">Barrages</span></div>
-                            <div className="stat-divider"/>
+                            <div className="stat-divider" />
                             <div className="stat-item"><span className="stat-value">98.4%</span><span className="stat-label">Disponibilité</span></div>
-                            <div className="stat-divider"/>
+                            <div className="stat-divider" />
                             <div className="stat-item"><span className="stat-value">LIVE</span><span className="stat-label">Données</span></div>
                         </div>
                     </div>
 
                     <div className="left-footer">
-                        <div className="status-dot"/>
+                        <div className="status-dot" />
                         <span className="status-text">Tous les systèmes opérationnels</span>
                     </div>
                 </div>
@@ -208,7 +208,7 @@ const Login = () => {
                 <div className="right-panel">
                     <div className="login-card">
                         <p className="card-eyebrow">Portail d'Accès Sécurisé</p>
-                        <h2 className="card-title">Heureux de vous<br/>revoir</h2>
+                        <h2 className="card-title">Heureux de vous<br />revoir</h2>
                         <p className="card-subtitle">Accédez au tableau de bord de contrôle régional</p>
 
                         <form onSubmit={handleSubmit}>
@@ -217,7 +217,7 @@ const Login = () => {
                                 <div style={{ position: 'relative' }}>
                                     <span className="field-icon">
                                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+                                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" /><circle cx="12" cy="7" r="4" />
                                         </svg>
                                     </span>
                                     <input type="email" className="field-input" value={email} onChange={e => setEmail(e.target.value)} placeholder="votre@email.com" required />
@@ -232,7 +232,7 @@ const Login = () => {
                                 <div style={{ position: 'relative' }}>
                                     <span className="field-icon">
                                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                                            <rect x="3" y="11" width="18" height="11" rx="2" ry="2" /><path d="M7 11V7a5 5 0 0 1 10 0v4" />
                                         </svg>
                                     </span>
                                     <input type="password" className="field-input" value={password} onChange={e => setPassword(e.target.value)} placeholder="••••••••" required />
@@ -241,7 +241,7 @@ const Login = () => {
 
                             <div className="checkbox-row" onClick={() => setKeepSigned(!keepSigned)}>
                                 <div className={`checkbox-box${keepSigned ? ' checked' : ''}`}>
-                                    {keepSigned && <svg width="11" height="9" viewBox="0 0 11 9" fill="none"><path d="M1 4.5L4 7.5L10 1.5" stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></svg>}
+                                    {keepSigned && <svg width="11" height="9" viewBox="0 0 11 9" fill="none"><path d="M1 4.5L4 7.5L10 1.5" stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" /></svg>}
                                 </div>
                                 <span className="checkbox-label">Rester connecté</span>
                             </div>
@@ -251,7 +251,7 @@ const Login = () => {
                             <button type="submit" className="submit-btn" disabled={loading}>
                                 <span>Se Connecter</span>
                                 <div style={{ width: 32, height: 32, borderRadius: '50%', background: 'rgba(255,255,255,0.12)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
                                 </div>
                             </button>
                         </form>

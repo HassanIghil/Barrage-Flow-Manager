@@ -23,7 +23,7 @@ const App = () => {
           <Route path="/demands" element={<Demands />} />
           <Route path="/releases" element={<div className="text-white font-bold text-4xl">Releases System Coming Soon...</div>} />
           <Route path="/alerts" element={<div className="text-white font-bold text-4xl">Alerts Monitoring Coming Soon...</div>} />
-          
+
           {/* Route Directeur uniquement */}
           <Route element={<ProtectedRoute allowedRoles={['directeur']} />}>
             <Route path="/users" element={<div className="text-white font-bold text-3xl">Gestion des Agents & Coops</div>} />
