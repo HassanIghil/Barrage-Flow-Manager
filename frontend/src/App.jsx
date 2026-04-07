@@ -4,6 +4,7 @@ import ProtectedRoute from './components/ProtectedRoute';
 import MainLayout from './layouts/MainLayout';
 import Login from './pages/Login';
 import Profile from './pages/Profile';
+import Releases from './pages/Releases';
 import { useAuth } from './context/AuthContext';
 
 const App = () => {
@@ -18,7 +19,7 @@ const App = () => {
         <Route element={<MainLayout />}>
           <Route path="/" element={<div className="text-white font-bold text-4xl">Dashboard Content Coming Soon...</div>} />
           <Route path="/profile" element={<Profile />} />
-          <Route path="/releases" element={<div className="text-white font-bold text-4xl">Releases Content Coming Soon...</div>} />
+          <Route path="/releases" element={<Releases />} />
           <Route path="/alerts" element={<div className="text-white font-bold text-4xl">Alerts Monitoring Coming Soon...</div>} />
           
           {/* Route Directeur uniquement */}
