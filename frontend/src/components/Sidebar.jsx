@@ -13,6 +13,10 @@ const Sidebar = () => {
     { icon: Settings,        label: 'Settings',  path: '/profile' },
   ];
 
+  if (user?.role === 'directeur') {
+    menuItems.push({ icon: User, label: 'Agents', path: '/users' });
+  }
+
   return (
     <aside className="w-52 bg-white border-r border-gray-100 flex flex-col h-screen sticky top-0">
 

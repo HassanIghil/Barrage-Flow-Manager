@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import apiRequest from '../services/api';
 import ReleaseForm from '../components/ReleaseForm';
+import ReleaseTable from '../components/ReleaseTable';
 import { useAuth } from '../context/AuthContext';
 
 const Releases = () => {
@@ -26,31 +27,6 @@ const Releases = () => {
     useEffect(() => {
         fetchHistory();
     }, []);
-
-    const getStatusStyle = (status) => {
-        switch (status.toLowerCase()) {
-            case 'en_attente':
-                return { color: '#D97706', background: 'rgba(217, 119, 6, 0.1)', border: '1px solid rgba(217, 119, 6, 0.3)' };
-            case 'execute':
-                return { color: '#059669', background: 'rgba(5, 150, 105, 0.1)', border: '1px solid rgba(5, 150, 105, 0.3)' };
-            case 'approuve':
-                return { color: '#2563EB', background: 'rgba(37, 99, 235, 0.1)', border: '1px solid rgba(37, 99, 235, 0.3)' };
-            case 'refuse':
-                return { color: '#DC2626', background: 'rgba(220, 38, 38, 0.1)', border: '1px solid rgba(220, 38, 38, 0.3)' };
-            default:
-                return { color: '#5A7A82', background: 'rgba(90, 122, 130, 0.1)', border: '1px solid rgba(90, 122, 130, 0.3)' };
-        }
-    };
-
-    const formatStatus = (status) => {
-        switch (status.toLowerCase()) {
-            case 'en_attente': return 'En Attente';
-            case 'execute': return 'Exécuté';
-            case 'approuve': return 'Approuvé';
-            case 'refuse': return 'Refusé';
-            default: return status;
-        }
-    };
 
     return (
         <div className="pr-root">
@@ -174,34 +150,7 @@ const Releases = () => {
                         ) : history.length === 0 ? (
                             <div style={{ textAlign: 'center', padding: '40px', color: '#5A7A82' }}>Aucun lâcher enregistré.</div>
                         ) : (
-                            <table className="history-table">
-                               <thead>
-                                   <tr>
-                                       <th>Date</th>
-                                       <th>Barrage</th>
-                                       <th>Volume (m³)</th>
-                                       <th>Type</th>
-                                       <th>Statut</th>
-                                   </tr>
-                               </thead>
-                               <tbody>
-                                   {history.map((item, index) => (
-                                       <tr key={index}>
-                                           <td style={{ fontWeight: 600 }}>{new Date(item.date_lacher).toLocaleDateString('fr-FR')}</td>
-                                           <td>{item.barrage}</td>
-                                           <td style={{ fontFamily: 'Syne, sans-serif', fontWeight: 700 }}>
-                                               {item.volume_m3.toLocaleString('fr-FR')}
-                                           </td>
-                                           <td style={{ textTransform: 'capitalize' }}>{item.type}</td>
-                                           <td>
-                                               <span className="status-badge" style={getStatusStyle(item.status)}>
-                                                   {formatStatus(item.status)}
-                                               </span>
-                                           </td>
-                                       </tr>
-                                   ))}
-                               </tbody>
-                            </table>
+                            <ReleaseTable history={history} user={user} onRefresh={fetchHistory} />
                         )}
                     </div>
                 </div>

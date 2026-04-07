@@ -1,6 +1,7 @@
 -- Vue 1 : Historique des lâchers d’eau
 CREATE VIEW v_historique_lachers AS
 SELECT 
+    l.id_lacher,
     l.date_lacher,
     l.volume_m3,
     l.type,

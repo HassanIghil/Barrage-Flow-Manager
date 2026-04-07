@@ -5,6 +5,7 @@ import MainLayout from './layouts/MainLayout';
 import Login from './pages/Login';
 import Profile from './pages/Profile';
 import Releases from './pages/Releases';
+import Users from './pages/Users';
 import { useAuth } from './context/AuthContext';
 
 const App = () => {
@@ -24,7 +25,7 @@ const App = () => {
           
           {/* Route Directeur uniquement */}
           <Route element={<ProtectedRoute allowedRoles={['directeur']} />}>
-            <Route path="/users" element={<div className="text-white font-bold text-3xl">Gestion des Agents</div>} />
+            <Route path="/users" element={<Users />} />
           </Route>
         </Route>
       </Route>

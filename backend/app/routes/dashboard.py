@@ -41,6 +41,7 @@ def get_dashboard_history(
     data = []
     for row in result:
         data.append({
+            "id_lacher": row.id_lacher,
             "date_lacher": str(row.date_lacher),
             "volume_m3": float(row.volume_m3),
             "type": row.type,
