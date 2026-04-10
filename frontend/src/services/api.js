@@ -15,25 +15,49 @@ const apiRequest = async (endpoint, options = {}) => {
         headers['Authorization'] = `Bearer ${token}`;
     }
 
-    const response = await fetch(`${API_URL}${endpoint}`, {
-        ...options,
-        headers,
-    });
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 12000); // 12s timeout
 
-    // 🛑 Gestion des erreurs 401 (Zéro Trust)
-    // On ne redirige PAS si on est déjà sur la page de login ou si c'est la tentative de login
-    if (response.status === 401 && !endpoint.includes('/auth/login')) {
-        console.warn("Session expirée. Redirection...");
-        localStorage.removeItem('token');
-        window.location.href = '/login';
+    try {
+        const response = await fetch(`${API_URL}${endpoint}`, {
+            ...options,
+            headers,
+            signal: controller.signal
+        });
+        clearTimeout(timeoutId);
+
+        // 🛑 Gestion des erreurs 401 (Zéro Trust)
+        // On ne redirige PAS si on est déjà sur la page de login ou si c'est la tentative de login
+        if (response.status === 401 && !endpoint.includes('/auth/login')) {
+            console.warn("Session expirée. Redirection...");
+            localStorage.removeItem('token');
+            window.location.href = '/login';
+        }
+
+        if (!response.ok) {
+            const errorData = await response.json().catch(() => ({ detail: "Erreur JSON" }));
+            let errMsg = `Erreur Serveur (${response.status})`;
+            if (errorData.detail) {
+                if (Array.isArray(errorData.detail)) {
+                    errMsg = errorData.detail.map(e => e.msg).join(', ');
+                } else if (typeof errorData.detail === 'string') {
+                    errMsg = errorData.detail;
+                } else {
+                    errMsg = JSON.stringify(errorData.detail);
+                }
+            }
+            throw new Error(errMsg);
+        }
+
+        return response.json();
+    } catch (error) {
+        if (error.name === 'AbortError') {
+            throw new Error("Dépassement du délai de connexion (12s). Veuillez vérifier votre réseau.");
+        }
+        throw error;
+    } finally {
+        clearTimeout(timeoutId);
     }
-
-    if (!response.ok) {
-        const errorData = await response.json().catch(() => ({ detail: "Erreur JSON" }));
-        throw new Error(errorData.detail || `Erreur Serveur (${response.status})`);
-    }
-
-    return response.json();
 };
 
 export default apiRequest;

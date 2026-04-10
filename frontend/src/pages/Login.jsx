@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import LoadingOverlay from '../components/LoadingOverlay';
 
 const Login = () => {
     const [email, setEmail] = useState('');
@@ -33,14 +34,12 @@ const Login = () => {
     return (
         <>
             <style>{`
-                @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap');
-
                 html, body, #root { height: 100%; overflow: hidden; }
                 * { box-sizing: border-box; margin: 0; padding: 0; }
 
                 .login-root {
                     height: 100vh; width: 100vw; display: flex;
-                    background: #C8D8D9; font-family: 'DM Sans', sans-serif;
+                    background: #C8D8D9; font-family: var(--font-main);
                     overflow: hidden; position: fixed; top: 0; left: 0;
                 }
 
@@ -68,16 +67,16 @@ const Login = () => {
                     display: flex; align-items: center; justify-content: center;
                     box-shadow: 0 8px 20px rgba(0,184,160,0.3);
                 }
-                .brand-name { font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 700; color: white; text-transform: uppercase; letter-spacing: 0.04em; }
+                .brand-name { font-family: var(--font-headline); font-size: 15px; font-weight: 700; color: white; text-transform: uppercase; letter-spacing: 0.04em; }
 
                 .left-center { position: relative; z-index: 1; flex: 1; display: flex; flex-direction: column; justify-content: center; padding: clamp(16px, 2vh, 40px) 0; }
                 .dam-illustration { width: 100%; max-width: clamp(200px, 28vw, 380px); margin: 0 auto clamp(20px, 3vh, 48px); }
-                .left-headline { font-family: 'Syne', sans-serif; font-size: clamp(22px, 2.8vw, 38px); font-weight: 800; color: #ffffff; line-height: 1.15; margin-bottom: 18px; }
+                .left-headline { font-family: var(--font-headline); font-size: clamp(22px, 2.8vw, 38px); font-weight: 800; color: #ffffff; line-height: 1.15; margin-bottom: 18px; }
                 .left-headline span { color: #00C8AE; }
                 .left-desc { font-size: 14px; color: rgba(255,255,255,0.5); line-height: 1.7; max-width: 300px; }
 
                 .stats-row { display: flex; gap: clamp(16px, 2.5vw, 32px); margin-top: clamp(20px, 3vh, 48px); position: relative; z-index: 1; }
-                .stat-value { font-family: 'Syne', sans-serif; font-size: 22px; font-weight: 700; color: #ffffff; }
+                .stat-value { font-family: var(--font-headline); font-size: 22px; font-weight: 700; color: #ffffff; }
                 .stat-label { font-size: 11px; color: rgba(255,255,255,0.4); text-transform: uppercase; letter-spacing: 0.12em; }
                 .stat-divider { width: 1px; background: rgba(255,255,255,0.1); align-self: stretch; }
 
@@ -98,7 +97,7 @@ const Login = () => {
 
                 .login-card { width: 100%; max-width: 400px; position: relative; z-index: 1; }
                 .card-eyebrow { font-size: 10px; font-weight: 700; color: #7A9BA0; text-transform: uppercase; letter-spacing: 0.22em; margin-bottom: 12px; }
-                .card-title { font-family: 'Syne', sans-serif; font-size: clamp(24px, 2.8vw, 34px); font-weight: 800; color: #1A3A42; margin-bottom: 6px; }
+                .card-title { font-family: var(--font-headline); font-size: clamp(24px, 2.8vw, 34px); font-weight: 800; color: #1A3A42; margin-bottom: 6px; }
                 .card-subtitle { font-size: 13px; color: #7A9BA0; margin-bottom: 44px; }
 
                 .field-group { margin-bottom: 20px; }
@@ -118,7 +117,7 @@ const Login = () => {
 
                 .submit-btn {
                     width: 100%; background: linear-gradient(135deg, #005E70 0%, #003D4D 100%);
-                    color: white; font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 700;
+                    color: white; font-family: var(--font-headline); font-size: 15px; font-weight: 700;
                     border: none; border-radius: 100px; padding: 18px 32px; cursor: pointer;
                     display: flex; align-items: center; justify-content: center; gap: 12px;
                     box-shadow: 0 12px 32px rgba(0,94,112,0.28); transition: all 0.2s;
@@ -127,21 +126,6 @@ const Login = () => {
 
                 .error-box { background: rgba(239,68,68,0.08); border: 1px solid rgba(239,68,68,0.2); border-radius: 16px; padding: 12px 18px; font-size: 12px; color: #DC2626; margin-bottom: 20px; text-align: center; }
 
-                /* ─── LOADING OVERLAY ────────────────────────── */
-                .loading-overlay {
-                    position: fixed; inset: 0; z-index: 1000;
-                    background: rgba(255, 255, 255, 0.4); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px);
-                    display: flex; flex-direction: column; align-items: center; justify-content: center;
-                    animation: fade-in 0.4s ease;
-                }
-                .loader-box { text-align: center; }
-                .loader-spinner {
-                    width: 64px; height: 64px; border: 4px solid rgba(0, 184, 160, 0.1); border-top-color: #00B8A0; border-radius: 50%;
-                    animation: spin 0.8s cubic-bezier(0.5, 0, 0.5, 1) infinite; margin: 0 auto 24px;
-                }
-                @keyframes spin { to { transform: rotate(360deg); } }
-                .loader-text { font-family: 'Syne', sans-serif; font-size: 18px; font-weight: 800; color: #1A3A42; }
-                @keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
 
                 @media (max-width: 640px) {
                     .login-root { flex-direction: column; position: fixed; }
@@ -153,14 +137,8 @@ const Login = () => {
 
             <div className="login-root">
                 {/* ── CHARGEMENT ── */}
-                {loading && (
-                    <div className="loading-overlay">
-                        <div className="loader-box">
-                            <div className="loader-spinner" />
-                            <div className="loader-text">Vérification en cours</div>
-                        </div>
-                    </div>
-                )}
+                {/* ── CHARGEMENT ── */}
+                {loading && <LoadingOverlay message="Vérification en cours..." />}
 
                 <div className="left-panel">
                     <div className="brand-logo">

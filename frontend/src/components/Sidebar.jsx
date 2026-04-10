@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { LayoutDashboard, Droplets, Waves, Users, Settings, User, LogOut, Droplet } from 'lucide-react';
+import { LayoutDashboard, Droplets, Waves, Users, Settings, User, LogOut, Droplet, AlertTriangle } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
 /**
@@ -12,11 +12,12 @@ const Sidebar = ({ isCollapsed, setIsCollapsed }) => {
   const { user, logout } = useAuth();
 
   const menuItems = [
-    { icon: LayoutDashboard, label: 'Tableau de Bord',       path: '/' },
-    { icon: Droplets,        label: 'Demandes Irrigation',  path: '/demands' },
-    { icon: Waves,           label: 'Actions de Lâcher',     path: '/releases' },
-    { icon: Users,           label: 'Agents & Coops',        path: '/users', roles: ['directeur'] },
-    { icon: Settings,        label: 'Profil & Accès',        path: '/profile' },
+    { icon: LayoutDashboard, label: 'Tableau de Bord', path: '/' },
+    { icon: AlertTriangle, label: 'Alertes Système', path: '/alerts' },
+    { icon: Droplets, label: 'Demandes Irrigation', path: '/demands' },
+    { icon: Waves, label: 'Actions de Lâcher', path: '/releases' },
+    { icon: Users, label: 'Agents & Coops', path: '/users', roles: ['directeur'] },
+    { icon: Settings, label: 'Profil & Accès', path: '/profile' },
   ];
 
   return (
@@ -77,7 +78,7 @@ const Sidebar = ({ isCollapsed, setIsCollapsed }) => {
         }
 
         .logo-text-main {
-          font-family: 'Syne', sans-serif;
+          font-family: var(--font-headline);
           color: white;
           font-weight: 800;
           font-size: 16px;
@@ -123,7 +124,7 @@ const Sidebar = ({ isCollapsed, setIsCollapsed }) => {
         }
 
         .nav-item-text {
-          font-family: 'Syne', sans-serif;
+          font-family: var(--font-main);
           font-weight: 600;
           font-size: 14px;
           white-space: nowrap;
@@ -155,7 +156,7 @@ const Sidebar = ({ isCollapsed, setIsCollapsed }) => {
 
         .sidebar-user-name {
           color: white;
-          font-family: 'Syne', sans-serif;
+          font-family: var(--font-headline);
           font-weight: 700;
           font-size: 13px;
           white-space: nowrap;

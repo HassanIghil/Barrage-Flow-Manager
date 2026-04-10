@@ -96,3 +96,29 @@ def execute_lacher(
         raise HTTPException(status_code=500, detail=f"Erreur lors de l'exécution du lâcher : {str(e)}")
 
     return {"message": f"Lâcher {id_lacher} exécuté avec succès"}
+
+
+# --------------------------
+# Route PUT /api/releases/{id_lacher}/refuse
+# --------------------------
+@router.put("/{id_lacher}/refuse")
+def refuse_lacher(
+    id_lacher: int,
+    payload: dict = Depends(role_checker(["directeur"])),
+    db: Session = Depends(get_db)
+):
+    """
+    Refuser un lâcher d'eau.
+    Strictement réservé au Directeur.
+    """
+    lacher = db.query(LacherEau).filter(LacherEau.id_lacher == id_lacher).first()
+    if not lacher:
+        raise HTTPException(status_code=404, detail="Lâcher non trouvé")
+
+    if lacher.status != "en_attente":
+        raise HTTPException(status_code=400, detail="Seuls les lâchers en attente peuvent être refusés")
+
+    lacher.status = "refuse"
+    db.commit()
+
+    return {"message": f"Lâcher {id_lacher} refusé."}

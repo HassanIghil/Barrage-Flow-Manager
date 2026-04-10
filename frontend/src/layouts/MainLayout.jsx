@@ -16,6 +16,7 @@ const MainLayout = () => {
   const getPageTitle = (path) => {
     const titles = {
       '/': 'Tableau de Bord',
+      '/demands': 'Demandes Irrigation',
       '/releases': 'Lâchers d\'Eau',
       '/users': 'Gestion Utilisateurs',
       '/profile': 'Profil Utilisateur',
@@ -40,19 +41,22 @@ const MainLayout = () => {
     const fetchNotifications = async () => {
       try {
         const [alerts, history] = await Promise.all([
-          apiRequest('/alerts/recent'),
+          apiRequest('/alerts'),
           apiRequest('/dashboard/history')
         ]);
 
-        const mappedAlerts = (alerts || []).map(a => ({
-          id: `a-${a.id_alerte}`,
+        const handledList = JSON.parse(localStorage.getItem('handledAlerts')) || [];
+        const activeAlerts = (alerts || []).filter(a => !handledList.includes(a.id));
+
+        const mappedAlerts = activeAlerts.map(a => ({
+          id: `a-${a.id}`,
           type: 'alert',
-          label: 'Alerte Critique',
-          sub: fixEncoding(a.message),
-          time: 'Récemment',
+          label: a.title || 'Alerte',
+          sub: fixEncoding(a.description),
+          time: a.time ? a.time : 'R\u00e9cemment',
           icon: <AlertTriangle size={14} />,
-          color: '#EF4444',
-          date: new Date(a.date_creation)
+          color: a.severity === 'critique' ? '#EF4444' : a.severity === 'warning' ? '#F59E0B' : '#06B6D4',
+          date: new Date(a.time || new Date())
         }));
 
         const mappedReleases = (history || []).slice(0, 5).map((h, idx) => ({
@@ -72,7 +76,7 @@ const MainLayout = () => {
       }
     };
     fetchNotifications();
-  }, [location.pathname]);
+  }, []); // Only fetch once on mount to reduce latency and server load
 
   useEffect(() => {
     const handleResize = () => {
@@ -98,11 +102,9 @@ const MainLayout = () => {
   return (
     <>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap');
-
         .app-container {
           display: flex; height: 100vh; width: 100vw; overflow: hidden;
-          background: #D4DCDE; font-family: 'DM Sans', sans-serif; position: relative;
+          background: #D4DCDE; font-family: var(--font-main); position: relative;
         }
 
         .app-container::before {
@@ -121,7 +123,7 @@ const MainLayout = () => {
         }
 
         .nav-left { display: flex; align-items: center; gap: 16px; }
-        .breadcrumb-text { font-family: 'Syne', sans-serif; font-size: 16px; font-weight: 800; color: #1A3A42; letter-spacing: -0.01em; display: flex; align-items: center; gap: 8px; }
+        .breadcrumb-text { font-family: var(--font-headline); font-size: 16px; font-weight: 800; color: #1A3A42; letter-spacing: -0.01em; display: flex; align-items: center; gap: 8px; }
         .breadcrumb-sub { color: #8AACB2; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; }
 
         .nav-right { display: flex; align-items: center; gap: 12px; position: relative; }
@@ -165,7 +167,7 @@ const MainLayout = () => {
           box-shadow: 0 25px 80px rgba(0, 40, 50, 0.22); animation: notif-slide 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.28); z-index: 500; overflow: hidden;
         }
         .notif-header { padding: 18px 20px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid rgba(0,0,0,0.04); }
-        .notif-title { font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 800; color: #11181A; }
+        .notif-title { font-family: var(--font-headline); font-size: 14px; font-weight: 800; color: #11181A; }
         .notif-list { 
             display: flex; flex-direction: column; height: 213px; overflow-y: auto; 
             scrollbar-width: thin; scrollbar-color: rgba(0, 184, 160, 0.2) transparent;
@@ -241,7 +243,7 @@ const MainLayout = () => {
                 }}
               >
                 <Bell size={22} strokeWidth={2.2} />
-                <span className="notification-dot" />
+                {notifications.length > 0 && <span className="notification-dot" />}
               </button>
 
               {/* NOTIFICATION PANEL */}

@@ -6,7 +6,11 @@ import Login from './pages/Login';
 import Profile from './pages/Profile';
 import Dashboard from './pages/Dashboard';
 import Demands from './pages/Demands';
+import Releases from './pages/Releases';
+import Users from './pages/Users';
+import Alerts from './pages/Alerts';
 import { useAuth } from './context/AuthContext';
+import { ThemeProvider } from './context/ThemeContext';
 
 const App = () => {
   const { user } = useAuth();
@@ -21,12 +25,12 @@ const App = () => {
           <Route path="/" element={<Dashboard />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/demands" element={<Demands />} />
-          <Route path="/releases" element={<div className="text-white font-bold text-4xl">Releases System Coming Soon...</div>} />
-          <Route path="/alerts" element={<div className="text-white font-bold text-4xl">Alerts Monitoring Coming Soon...</div>} />
+          <Route path="/releases" element={<Releases />} />
+          <Route path="/alerts" element={<Alerts />} />
 
           {/* Route Directeur uniquement */}
           <Route element={<ProtectedRoute allowedRoles={['directeur']} />}>
-            <Route path="/users" element={<div className="text-white font-bold text-3xl">Gestion des Agents & Coops</div>} />
+            <Route path="/users" element={<Users />} />
           </Route>
         </Route>
       </Route>

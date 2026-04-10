@@ -176,7 +176,6 @@ const Profile = () => {
     return (
         <>
             <style>{`
-                @import url('https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;600&display=swap');
 
                 .pr-root {
                     position: absolute;
@@ -185,7 +184,7 @@ const Profile = () => {
                     align-items: stretch;
                     justify-content: stretch;
                     padding: 0;
-                    font-family: 'DM Sans', sans-serif;
+                    font-family: var(--font-headline);
                     box-sizing: border-box;
                     overflow: hidden;
                 }
@@ -216,7 +215,7 @@ const Profile = () => {
                     width: 68px; height: 68px; border-radius: 50%;
                     background: linear-gradient(135deg, #00B8A0, #005E70);
                     display: flex; align-items: center; justify-content: center;
-                    font-family: 'Syne', sans-serif; font-size: 22px; font-weight: 800; color: white;
+                    font-family: var(--font-headline); font-size: 22px; font-weight: 800; color: white;
                     border: 3px solid rgba(255,255,255,0.6);
                     box-shadow: 0 8px 24px rgba(0,184,160,0.28);
                     flex-shrink: 0;
@@ -224,7 +223,7 @@ const Profile = () => {
 
                 .pr-identity { flex-shrink: 0; }
                 .pr-uname {
-                    font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 800;
+                    font-family: var(--font-headline); font-size: 20px; font-weight: 800;
                     color: #1A3A42; line-height: 1.15; margin-bottom: 3px;
                 }
                 .pr-uemail { font-size: 12px; color: #7A9BA0; font-weight: 500; margin-bottom: 8px; }
@@ -233,7 +232,7 @@ const Profile = () => {
                     background: rgba(255,255,255,0.7); border: 1.5px solid rgba(255,255,255,0.9);
                     color: #005E70; padding: 4px 12px; border-radius: 100px;
                     font-size: 9px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
-                    font-family: 'Syne', sans-serif; display: flex; align-items: center; gap: 5px;
+                    font-family: var(--font-headline); display: flex; align-items: center; gap: 5px;
                 }
                 .pr-pill-dot {
                     width: 5px; height: 5px; border-radius: 50%;
@@ -248,7 +247,7 @@ const Profile = () => {
                     border-radius: 18px; padding: 10px 18px; text-align: center;
                     box-shadow: 0 2px 8px rgba(0,0,0,0.03); flex: 1;
                 }
-                .pr-stat-val { font-family: 'Syne', sans-serif; font-size: 22px; font-weight: 800; color: #1A3A42; line-height: 1; margin-bottom: 3px; }
+                .pr-stat-val { font-family: var(--font-headline); font-size: 22px; font-weight: 800; color: #1A3A42; line-height: 1; margin-bottom: 3px; }
                 .pr-stat-lbl { font-size: 9px; font-weight: 700; color: #7A9BA0; text-transform: uppercase; letter-spacing: 0.14em; }
 
                 .pr-status {
@@ -268,14 +267,14 @@ const Profile = () => {
                 .pr-stxt {
                     font-size: 9px; font-weight: 700; color: #005E70;
                     text-transform: uppercase; letter-spacing: 0.14em;
-                    font-family: 'Syne', sans-serif; white-space: nowrap;
+                    font-family: var(--font-headline); white-space: nowrap;
                 }
 
                 .pr-spacer { flex: 1; }
                 .pr-edit-btn {
                     background: linear-gradient(135deg, #005E70, #003D4D);
                     color: white; border: none; border-radius: 12px;
-                    padding: 12px 24px; font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 700;
+                    padding: 12px 24px; font-family: var(--font-headline); font-size: 13px; font-weight: 700;
                     cursor: pointer; display: flex; align-items: center; gap: 8px;
                     transition: all .2s ease; flex-shrink: 0;
                     white-space: nowrap; min-width: 120px; justify-content: center;
@@ -285,13 +284,13 @@ const Profile = () => {
                 .pr-hdiv { width: 100%; height: 1px; background: rgba(138,172,178,0.18); flex-shrink: 0; }
 
                 .pr-nav { display: flex; align-items: center; gap: 20px; flex-shrink: 0; flex-wrap: wrap; }
-                .pr-section-title { font-family: 'Syne', sans-serif; font-size: 18px; font-weight: 800; color: #1A3A42; flex-shrink: 0; min-width: 250px; }
+                .pr-section-title { font-family: var(--font-headline); font-size: 18px; font-weight: 800; color: #1A3A42; flex-shrink: 0; min-width: 250px; }
                 .pr-tabs {
                     display: flex; gap: 4px; border-radius: 100px; padding: 4px;
                     background: rgba(255,255,255,0.4); border: 1.5px solid rgba(255,255,255,0.8);
                 }
                 .pr-tab {
-                    font-family: 'Syne', sans-serif; font-size: 10px; font-weight: 700;
+                    font-family: var(--font-headline); font-size: 10px; font-weight: 700;
                     letter-spacing: 0.1em; text-transform: uppercase;
                     padding: 6px 16px; border-radius: 100px; border: none;
                     background: transparent; color: #5A7A82; cursor: pointer; transition: all .2s;
@@ -315,7 +314,7 @@ const Profile = () => {
                     background: rgba(255,255,255,0.48); border: 1.5px solid rgba(255,255,255,0.8);
                     border-radius: 100px; padding: 12px 20px; transition: all .2s; cursor: pointer;
                 }
-                .pr-row-name { font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 700; color: #1A3A42; }
+                .pr-row-name { font-family: var(--font-headline); font-size: 13px; font-weight: 700; color: #1A3A42; }
                 .pr-row-sub { font-size: 11px; color: #7A9BA0; }
                 .pr-badge {
                     font-size: 9px; font-weight: 700; color: #005E70; background: rgba(0,200,174,0.12);
@@ -362,7 +361,7 @@ const Profile = () => {
                 }
                 .pm-close { position: absolute; top: 24px; right: 24px; cursor: pointer; color: #8AACB2; }
                 .pm-input { width: 100%; border: 1.5px solid #E5EEF0; border-radius: 100px; padding: 14px 22px; margin-bottom: 12px; font-size: 14px; outline: none; }
-                .pm-btn { width: 100%; background: #005E70; color: white; border: none; border-radius: 100px; padding: 16px; font-family: 'Syne', sans-serif; font-weight: 700; cursor: pointer; }
+                .pm-btn { width: 100%; background: #005E70; color: white; border: none; border-radius: 100px; padding: 16px; font-family: var(--font-headline); font-weight: 700; cursor: pointer; }
                 .pm-status { padding: 12px; border-radius: 12px; font-size: 12px; text-align: center; margin-bottom: 16px; font-weight: 600; }
                 .pm-status.error { background: #fee2e2; color: #dc2626; }
                 .pm-status.success { background: #d1fae5; color: #059669; }
@@ -443,10 +442,10 @@ const Profile = () => {
                                         </div>
                                         {r.toggle ? (
                                             <label className="le-switch">
-                                                <input 
-                                                    type="checkbox" 
-                                                    checked={securityPrefs[r.key]} 
-                                                    onChange={() => setSecurityPrefs({...securityPrefs, [r.key]: !securityPrefs[r.key]})}
+                                                <input
+                                                    type="checkbox"
+                                                    checked={securityPrefs[r.key]}
+                                                    onChange={() => setSecurityPrefs({ ...securityPrefs, [r.key]: !securityPrefs[r.key] })}
                                                 />
                                                 <span className="le-slider"></span>
                                             </label>
@@ -472,7 +471,7 @@ const Profile = () => {
                 <div className="pm-overlay" onClick={() => setIsPassModalOpen(false)}>
                     <div className="pm-modal" onClick={e => e.stopPropagation()}>
                         <div className="pm-close" onClick={() => setIsPassModalOpen(false)}>✕</div>
-                        <h2 style={{ fontFamily: 'Syne', marginBottom: 8, fontSize: 22 }}>Sécurité</h2>
+                        <h2 style={{ fontFamily: 'var(--font-headline)', marginBottom: 8, fontSize: 22 }}>Sécurité</h2>
                         <p style={{ fontSize: 12, color: '#8AACB2', marginBottom: 20 }}>Mise à jour de votre mot de passe AquaFlow.</p>
 
                         {passStatus.msg && <div className={`pm-status ${passStatus.type}`}>{passStatus.msg}</div>}
