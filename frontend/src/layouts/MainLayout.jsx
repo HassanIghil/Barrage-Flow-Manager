@@ -196,7 +196,8 @@ const MainLayout = () => {
           .sidebar-backdrop.active { display: block; opacity: 1; pointer-events: auto; }
           .breadcrumb-text { font-size: 17px; }
           .breadcrumb-sub { display: none; }
-          .notif-panel { width: calc(100vw - 40px); right: -12px; }
+          .notif-panel { width: calc(100vw - 32px); right: -8px; }
+          .page-wrapper { padding: 0 0 60px !important; }
         }
       `}</style>
 

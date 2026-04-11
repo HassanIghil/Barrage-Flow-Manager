@@ -233,6 +233,42 @@ const Demands = () => {
                 .pm-input { width: 100%; border: 1.5px solid #E5EEF0; border-radius: 100px; padding: 14px 22px; margin-bottom: 20px; font-size: 14px; outline: none; }
                 .pm-label { font-size: 10px; font-weight: 700; color: #7A9BA0; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 6px; display: block; padding-left: 14px;}
                 
+                @media (max-width: 480px) {
+                    .dm-root { padding: 0 !important; gap: 0; background: transparent; border: none; }
+                    .dm-header { padding: 24px 16px 12px !important; background: transparent; width: 100%; box-sizing: border-box; }
+                    .dm-title { font-size: 22px !important; letter-spacing: -0.02em; }
+                    .dm-subtitle { font-size: 11px !important; opacity: 0.8; }
+                    .dm-actions { width: 100%; margin-top: 8px; }
+                    .dm-main-btn { width: 100%; justify-content: center; padding: 12px !important; font-size: 11px !important; }
+                    
+                    .dm-filters { padding: 0 16px 16px !important; width: 100%; box-sizing: border-box; background: transparent; border-radius: 0; border: none; overflow-x: auto; scrollbar-width: none; }
+                    .dm-filters::-webkit-scrollbar { display: none; }
+                    .dm-tab { padding: 6px 12px; font-size: 9px; white-space: nowrap; border: 1px solid var(--border-subtle); margin-right: 4px; }
+                    .dm-tab.active { border-color: #1A3A42; }
+
+                    .dm-layout { gap: 0; }
+                    .dm-list-container { padding: 0 !important; gap: 0 !important; }
+                    
+                    .dm-row { 
+                        border-radius: 0 !important; border-left: none !important; border-right: none !important;
+                        padding: 12px 16px !important; gap: 10px !important; margin: 0 !important;
+                        background: rgba(255,255,255,0.8) !important; border-bottom: 1px solid var(--border-subtle) !important;
+                        width: 100% !important; box-sizing: border-box !important;
+                    }
+                    .dm-row:hover { transform: none; }
+                    .dm-coop-name { font-size: 13px !important; }
+                    .dm-volume { font-size: 14px !important; min-width: auto !important; margin-left: auto !important; margin-right: 0 !important; }
+                    .dm-volume-lbl { font-size: 7px !important; }
+                    
+                    .dm-badge { padding: 4px 8px !important; font-size: 8px !important; }
+                    .dm-dec-btn { width: 32px; height: 32px; }
+
+                    .dm-map-container { display: none !important; }
+                    
+                    .pm-modal { padding: 32px 24px !important; border-radius: 20px !important; }
+                    .pm-overlay { padding: 10px !important; }
+                }
+
                 /* LEAFLET OVERRIDES */
                 .leaflet-popup-content-wrapper { border-radius: 16px; box-shadow: 0 10px 25px rgba(0,0,0,0.1) !important; }
                 .leaflet-popup-content { font-family: 'DM Sans', sans-serif; margin: 16px; }
@@ -244,11 +280,13 @@ const Demands = () => {
                         <div className="dm-title">Flux Hydraulique</div>
                         <div className="dm-subtitle">{"Pilotage g\u00e9olocalis\u00e9 des demandes d'irrigation"}</div>
                     </div>
-                    <div className="dm-actions">
-                        <button className="dm-main-btn" onClick={() => setIsModalOpen(true)}>
-                            <Plus size={16} /> NOUVELLE DEMANDE
-                        </button>
-                    </div>
+                    {['directeur', 'ingenieur'].includes(user?.role) && (
+                        <div className="dm-actions">
+                            <button className="dm-main-btn" onClick={() => setIsModalOpen(true)}>
+                                <Plus size={16} /> NOUVELLE DEMANDE
+                            </button>
+                        </div>
+                    )}
                 </div>
 
                 <div className="dm-filters">
@@ -296,7 +334,7 @@ const Demands = () => {
                                     )}
                                 </div>
 
-                                {user?.role === 'directeur' && dm.status === 'en_attente' && (
+                                {['directeur', 'ingenieur'].includes(user?.role) && dm.status === 'en_attente' && (
                                     <div className="dm-decision">
                                         <button className="dm-dec-btn no" onClick={() => handleUpdateStatus(dm.id_demande, 'refuse')} title="Refuser"><XCircle size={18} /></button>
                                         <button className="dm-dec-btn yes" onClick={() => handleUpdateStatus(dm.id_demande, 'approuve')} title="Approuver"><CheckCircle2 size={18} /></button>

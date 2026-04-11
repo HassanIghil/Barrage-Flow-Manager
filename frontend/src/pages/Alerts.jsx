@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import {
-  AlertTriangle, Info, Radio, CheckCircle2
+  AlertTriangle, Info, Radio, Clock
 } from 'lucide-react';
 import LoadingOverlay from '../components/LoadingOverlay';
 import apiRequest from '../services/api';
-
-
+import { useAuth } from '../context/AuthContext';
 
 /* ── Severity configs ─────────────────────────────────── */
 const getSeverity = () => ({
@@ -31,7 +30,7 @@ const getSeverity = () => ({
     label: 'Information',
     textColor: 'var(--accent)',
     borderColor: 'rgba(13,148,136,0.35)',
-    bgColor: '#f0fdfa',
+    bgColor: '#f0fdf4',
     icon: Info,
     iconColor: 'var(--accent)',
     leftBorder: 'var(--accent)',
@@ -41,21 +40,14 @@ const getSeverity = () => ({
 const TABS = ['Toutes', 'Critiques', 'Avertissements', 'Informations'];
 
 /* ── Alert Row ───────────────────────────────────────── */
-const AlertRow = ({ alert, isHandled, onHandle }) => {
+const AlertRow = ({ alert, isHandled, onHandle, user }) => {
   const cfg = getSeverity()[alert.severity] || getSeverity().info;
   const Icon = cfg.icon;
 
   return (
-    <div style={{
-      display: 'flex', alignItems: 'center', gap: '14px',
-      background: 'var(--bg-surface)',
-      border: `1px solid var(--border-subtle)`,
-      borderLeft: `3px solid ${isHandled ? 'var(--border-medium)' : cfg.leftBorder}`,
-      borderRadius: '16px',
-      padding: '16px',
+    <div className="alert-row-container" style={{
+      borderLeft: `5px solid ${isHandled ? 'var(--border-medium)' : cfg.leftBorder}`,
       opacity: isHandled ? 0.6 : 1,
-      transition: 'border-color 0.15s, box-shadow 0.15s, opacity 0.3s',
-      boxShadow: 'var(--card-shadow)',
     }}>
       {/* Icon Badge */}
       <div style={{
@@ -68,7 +60,7 @@ const AlertRow = ({ alert, isHandled, onHandle }) => {
       </div>
 
       {/* Severity */}
-      <div style={{ width: '120px', flexShrink: 0 }}>
+      <div className="row-severity-tag" style={{ width: '120px', flexShrink: 0 }}>
         <p style={{ color: cfg.textColor, fontSize: '10px', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.1em', margin: '0 0 2px' }}>
           {cfg.label}
         </p>
@@ -87,42 +79,47 @@ const AlertRow = ({ alert, isHandled, onHandle }) => {
         </p>
       </div>
 
-      {/* Time */}
-      <div style={{ textAlign: 'right', flexShrink: 0, minWidth: '100px' }}>
+      {/* Time & Badge (Desktop appearance) */}
+      <div className="row-time-box" style={{ textAlign: 'right', flexShrink: 0, minWidth: '100px' }}>
         <p style={{ color: 'var(--text-primary)', fontSize: '13px', fontWeight: 500, margin: '0 0 2px' }}>{alert.time}</p>
-        <p style={{ color: 'var(--text-muted)', fontSize: '10px', margin: 0 }}>{"Enregistr\u00e9"}</p>
+        <p style={{ color: 'var(--text-muted)', fontSize: '10px', margin: 0 }}>{"Re\u00e7u"}</p>
       </div>
 
-      {/* Action */}
-      <button
-        onClick={() => onHandle && onHandle()}
-        disabled={isHandled}
-        style={{
-          flexShrink: 0,
-          fontSize: '11px', fontWeight: 700, letterSpacing: '0.04em',
-          color: isHandled ? 'var(--text-muted)' : (alert.severity === 'critique' ? '#f87171' : 'var(--text-secondary)'),
-          border: `1px solid ${isHandled ? 'var(--border-subtle)' : (alert.severity === 'critique' ? 'rgba(248,113,113,0.4)' : 'var(--border-medium)')}`,
-          borderRadius: '8px', padding: '6px 12px',
-          background: isHandled ? 'var(--bg-element)' : 'transparent',
-          cursor: isHandled ? 'default' : 'pointer',
-          transition: 'all 0.15s',
-        }}
-        onMouseEnter={e => { if (!isHandled) { e.currentTarget.style.color = 'var(--accent)'; e.currentTarget.style.borderColor = 'var(--accent)'; } }}
-        onMouseLeave={e => {
-          if (!isHandled) {
-            e.currentTarget.style.color = alert.severity === 'critique' ? '#f87171' : 'var(--text-secondary)';
-            e.currentTarget.style.borderColor = alert.severity === 'critique' ? 'rgba(248,113,113,0.4)' : 'var(--border-medium)';
-          }
-        }}
-      >
-        {isHandled ? 'Trait\u00e9e \u2714' : 'Traiter'}
-      </button>
+      {/* Action (Directeur & Ingenieur) */}
+      {['directeur', 'ingenieur'].includes(user?.role) && (
+        <button
+          className="btn-handle-alert"
+          onClick={() => onHandle && onHandle()}
+          disabled={isHandled}
+          style={{
+            flexShrink: 0,
+            fontSize: '11px', fontWeight: 700, letterSpacing: '0.04em',
+            color: isHandled ? 'var(--text-muted)' : (alert.severity === 'critique' ? '#f87171' : 'var(--text-secondary)'),
+            border: `1px solid ${isHandled ? 'var(--border-subtle)' : (alert.severity === 'critique' ? 'rgba(248,113,113,0.4)' : 'var(--border-medium)')}`,
+            borderRadius: '8px', padding: '6px 14px',
+            background: isHandled ? 'var(--bg-element)' : 'transparent',
+            cursor: isHandled ? 'default' : 'pointer',
+            transition: 'all 0.15s',
+          }}
+          onMouseEnter={e => { if (!isHandled) { e.currentTarget.style.color = 'var(--accent)'; e.currentTarget.style.borderColor = 'var(--accent)'; } }}
+          onMouseLeave={e => {
+            if (!isHandled) {
+              e.currentTarget.style.color = alert.severity === 'critique' ? '#f87171' : 'var(--text-secondary)';
+              e.currentTarget.style.borderColor = alert.severity === 'critique' ? 'rgba(248,113,113,0.4)' : 'var(--border-medium)';
+            }
+          }}
+        >
+          <span className="btn-text-desktop">{isHandled ? 'Trait\u00e9e' : 'Traiter'}</span>
+          <span className="btn-text-mobile">OK</span>
+        </button>
+      )}
     </div>
   );
 };
 
 /* ── Alerts Page ─────────────────────────────────────── */
 const Alerts = () => {
+  const { user } = useAuth();
   const [activeTab, setActiveTab] = useState('Toutes');
   const [alerts, setAlerts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -156,48 +153,130 @@ const Alerts = () => {
     if (activeTab === 'Critiques') return alert.severity === 'critique';
     if (activeTab === 'Avertissements') return alert.severity === 'warning';
     if (activeTab === 'Informations') return alert.severity === 'info';
-    return true; // 'Toutes'
+    return true;
   }).sort((a, b) => {
-    // Show handled at the bottom
     const aHandled = handledList.includes(a.id);
     const bHandled = handledList.includes(b.id);
     if (aHandled && !bHandled) return 1;
     if (!aHandled && bHandled) return -1;
-    return 0; // fallback to original sort
+    return 0;
   });
 
   return (
-    <div style={{
-      padding: '24px 36px',
-      display: 'flex', flexDirection: 'column', gap: '20px',
-    }}>
+    <>
+      <style>{`
+        .alerts-page-root {
+          padding: 24px 36px;
+          display: flex;
+          flex-direction: column;
+          gap: 20px;
+          max-width: 1200px;
+          margin: 0 auto;
+        }
 
-      {/* Header */}
-      <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between' }}>
-        <div>
-          <h1 style={{ color: 'var(--text-primary)', fontWeight: 900, fontSize: '30px', letterSpacing: '-0.03em', margin: '0 0 8px' }}>
-            Gestion des <span style={{ color: 'var(--accent)' }}>Alertes</span>
-          </h1>
-          <p style={{ color: 'var(--text-secondary)', fontSize: '13px', margin: 0, maxWidth: '480px', lineHeight: 1.6 }}>
-            {"Supervision en temps r\u00e9el de la sant\u00e9 du barrage et du r\u00e9seau de distribution d'eau."}
-          </p>
-        </div>
-        <div style={{
-          display: 'flex', alignItems: 'center', gap: '8px',
-          background: '#f0fdf4',
-          border: '1px solid #bbf7d0',
-          borderRadius: '99px', padding: '6px 14px',
-        }}>
-          <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#10b981', animation: 'pulse 2s infinite' }} />
-          <span style={{ color: '#10b981', fontSize: '11px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em' }}>
-            {"Syst\u00e8me Actif"}
-          </span>
-        </div>
-      </div>
+        .alerts-header {
+          display: flex;
+          align-items: flex-start;
+          justify-content: space-between;
+          gap: 20px;
+        }
 
-      {/* Filter Tabs */}
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-        <div style={{ display: 'flex', gap: '8px' }}>
+        .alert-row-container {
+          display: flex;
+          align-items: center;
+          gap: 14px;
+          background: var(--bg-surface);
+          border: 1px solid var(--border-subtle);
+          border-radius: 16px;
+          padding: 16px;
+          transition: all 0.2s ease;
+          box-shadow: var(--card-shadow);
+        }
+
+        .alert-tabs-container {
+           display: flex; 
+           gap: 8px; 
+        }
+
+        .btn-text-mobile { display: none; }
+
+        @media (max-width: 1024px) {
+           .row-severity-tag { display: none !important; }
+        }
+
+        @media (max-width: 480px) {
+           .alerts-page-root { padding: 0 !important; gap: 0; width: 100%; overflow-x: hidden; }
+           .alerts-header { padding: 24px 16px 16px !important; }
+           
+           .alert-tabs-container { 
+             padding: 0 16px 16px !important; 
+             margin-bottom: 0; 
+             overflow-x: auto; 
+             scrollbar-width: none;
+             width: 100%;
+             box-sizing: border-box;
+           }
+           .alert-tabs-container::-webkit-scrollbar { display: none; }
+           
+           .alert-row-container {
+              border-radius: 0 !important;
+              border-left-width: 5px !important;
+              border-right: none !important;
+              border-top: none !important;
+              width: 100% !important;
+              box-sizing: border-box !important;
+              padding: 14px 16px !important;
+              gap: 12px !important;
+              box-shadow: none !important;
+              border-bottom: 1px solid var(--border-subtle) !important;
+           }
+
+           .row-time-box { text-align: left !important; min-width: auto !important; margin-top: 4px; }
+           .row-time-box p { font-size: 11px !important; display: inline; margin-right: 8px !important; }
+           
+           .alert-list-wrapper { gap: 0 !important; }
+           
+           .alert-row-container h4 { font-size: 14px !important; }
+           .alert-row-container p { font-size: 11px !important; line-height: 1.3 !important; }
+           
+           .btn-handle-alert {
+              padding: 6px 12px !important;
+              font-size: 10px !important;
+              min-width: 50px;
+              text-align: center;
+           }
+           .btn-text-desktop { display: none; }
+           .btn-text-mobile { display: inline; }
+        }
+      `}</style>
+
+      <div className="alerts-page-root">
+        {/* Header */}
+        <div className="alerts-header">
+          <div>
+            <h1 style={{ color: 'var(--text-primary)', fontWeight: 900, fontHeadline: 'var(--font-headline)', fontSize: '30px', letterSpacing: '-0.03em', margin: '0 0 8px' }}>
+              Gestion des <span style={{ color: 'var(--accent)' }}>Alertes</span>
+            </h1>
+            <p style={{ color: 'var(--text-secondary)', fontSize: '13px', margin: 0, maxWidth: '480px', lineHeight: 1.6 }}>
+              {"Supervision en temps r\u00e9el de la sant\u00e9 du barrage et du r\u00e9seau de distribution d'eau."}
+            </p>
+          </div>
+          <div style={{
+            display: 'flex', alignItems: 'center', gap: '8px',
+            background: '#f0fdf4',
+            border: '1px solid #bbf7d0',
+            borderRadius: '99px', padding: '6px 14px',
+            flexShrink: 0
+          }}>
+            <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#10b981', animation: 'pulse 2s infinite' }} />
+            <span style={{ color: '#10b981', fontSize: '11px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em' }}>
+              {"Actif"}
+            </span>
+          </div>
+        </div>
+
+        {/* Filter Tabs */}
+        <div className="alert-tabs-container">
           {TABS.map(tab => {
             const isActive = tab === activeTab;
             return (
@@ -205,7 +284,7 @@ const Alerts = () => {
                 key={tab}
                 onClick={() => setActiveTab(tab)}
                 style={{
-                  fontSize: '12px', fontWeight: 700,
+                  fontSize: '12px', fontWeight: 700, whiteSpace: 'nowrap',
                   padding: '7px 16px', borderRadius: '99px',
                   border: `1px solid ${isActive ? 'var(--accent)' : 'var(--border-medium)'}`,
                   background: isActive ? 'var(--accent)' : 'transparent',
@@ -218,27 +297,27 @@ const Alerts = () => {
             );
           })}
         </div>
-      </div>
 
-      {/* Alert List */}
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-        {loading ? (
-          <LoadingOverlay message="Scan de sécurité du barrage..." />
-        ) : filteredAlerts.length === 0 ? (
-          <p style={{ color: 'var(--text-muted)' }}>Aucune alerte enregistrée pour cette catégorie.</p>
-        ) : (
-          filteredAlerts.map(alert => (
-            <AlertRow
-              key={alert.id}
-              alert={alert}
-              isHandled={handledList.includes(alert.id)}
-              onHandle={() => handleAlert(alert.id)}
-            />
-          ))
-        )}
+        {/* Alert List */}
+        <div className="alert-list-wrapper" style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+          {loading ? (
+            <LoadingOverlay message="Scan de sécurité du barrage..." />
+          ) : filteredAlerts.length === 0 ? (
+            <p style={{ color: 'var(--text-muted)', padding: '30px 20px', textAlign: 'center', fontSize: '13px' }}>Aucune alerte pour cette catégorie.</p>
+          ) : (
+            filteredAlerts.map(alert => (
+              <AlertRow
+                key={alert.id}
+                alert={alert}
+                isHandled={handledList.includes(alert.id)}
+                onHandle={() => handleAlert(alert.id)}
+                user={user}
+              />
+            ))
+          )}
+        </div>
       </div>
-
-    </div>
+    </>
   );
 };
 

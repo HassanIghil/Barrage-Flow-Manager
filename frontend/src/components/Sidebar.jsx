@@ -131,11 +131,11 @@ const Sidebar = ({ isCollapsed, setIsCollapsed }) => {
         }
 
         .sidebar-user-area {
-          padding: 24px;
+          padding: 24px 18px 24px 14px; /* Reduced left padding to pull avatar left */
           border-top: 1px solid rgba(255,255,255,0.08);
           display: flex;
           align-items: center;
-          gap: 12px;
+          gap: 16px; /* Increased gap between avatar and text */
           background: rgba(0,0,0,0.1);
         }
 
@@ -158,10 +158,11 @@ const Sidebar = ({ isCollapsed, setIsCollapsed }) => {
           color: white;
           font-family: var(--font-headline);
           font-weight: 700;
-          font-size: 13px;
+          font-size: 15px; /* Bigger name as requested */
           white-space: nowrap;
           overflow: hidden;
           text-overflow: ellipsis;
+          letter-spacing: -0.01em;
         }
 
         .sidebar-user-role {
@@ -185,6 +186,7 @@ const Sidebar = ({ isCollapsed, setIsCollapsed }) => {
           border: 1px solid rgba(239, 68, 68, 0.3);
           cursor: pointer;
           transition: all 0.2s ease;
+          margin-left: 4px; /* Shift right as requested */
         }
         .logout-btn:hover { background: rgba(239, 68, 68, 0.25); color: #FCA5A5; }
 
@@ -232,7 +234,7 @@ const Sidebar = ({ isCollapsed, setIsCollapsed }) => {
               <User size={18} strokeWidth={2.5} />
             </div>
             <div className="user-info-text">
-              <div className="sidebar-user-name">{user?.prenom} {user?.nom}</div>
+              <div className="sidebar-user-name">{user?.prenom} {user?.nom?.toUpperCase()}</div>
               <div className="sidebar-user-role">{user?.role || 'Directeur'}</div>
             </div>
             <button className="logout-btn" onClick={logout} title="Déconnexion">

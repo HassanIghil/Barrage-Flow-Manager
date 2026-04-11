@@ -2,6 +2,12 @@ import React from 'react';
 import apiRequest from '../services/api';
 
 const ReleaseTable = ({ history, user, onRefresh }) => {
+    const fixEncoding = (str) => {
+        if (!str) return '';
+        if (typeof str !== 'string') return str;
+        try { return decodeURIComponent(escape(str)); }
+        catch { return str; }
+    };
 
     const handleExecute = async (id_lacher) => {
         if (!window.confirm("Voulez-vous vraiment exécuter ce lâcher d'eau ?")) return;
@@ -50,14 +56,14 @@ const ReleaseTable = ({ history, user, onRefresh }) => {
                     <th>Volume (m³)</th>
                     <th>Type</th>
                     <th>Statut</th>
-                    {user?.role === 'directeur' && <th>Actions</th>}
+                    {['directeur', 'ingenieur'].includes(user?.role) && <th>Actions</th>}
                 </tr>
             </thead>
             <tbody>
                 {history.map((item, index) => (
                     <tr key={item.id_lacher || index}>
                         <td style={{ fontWeight: 600 }}>{new Date(item.date_lacher).toLocaleDateString('fr-FR')}</td>
-                        <td>{item.barrage}</td>
+                        <td>{fixEncoding(item.barrage)}</td>
                         <td style={{ fontFamily: 'Syne, sans-serif', fontWeight: 700 }}>
                             {item.volume_m3.toLocaleString('fr-FR')}
                         </td>
@@ -67,7 +73,9 @@ const ReleaseTable = ({ history, user, onRefresh }) => {
                                 {formatStatus(item.status)}
                             </span>
                         </td>
-                        {user?.role === 'directeur' && (
+                        <td className="col-motif" style={{ padding: '10px', color: 'var(--text-secondary)', maxWidth: '150px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{fixEncoding(item.motif) || '-'}</td>
+                        <td className="col-par" style={{ padding: '10px', color: 'var(--text-secondary)' }}>{fixEncoding(item.utilisateur)}</td>
+                        {['directeur', 'ingenieur'].includes(user?.role) && (
                             <td>
                                 {item.status === 'en_attente' && (
                                     <button

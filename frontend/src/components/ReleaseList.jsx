@@ -3,6 +3,16 @@ import { Calendar, Droplets, Activity, ChevronRight, CheckCircle2, Clock, AlertT
 import apiRequest from '../services/api';
 
 const ReleaseList = ({ history, user, onRefresh }) => {
+    // Utility to handle UTF-8 symbols from backend
+    const fixEncoding = (str) => {
+        if (!str) return '';
+        if (typeof str !== 'string') return str;
+        try {
+            return decodeURIComponent(escape(str));
+        } catch {
+            return str;
+        }
+    };
 
     const handleExecute = async (id_lacher) => {
         if (!window.confirm("Voulez-vous vraiment exécuter ce lâcher d'eau ?")) return;
@@ -115,60 +125,66 @@ const ReleaseList = ({ history, user, onRefresh }) => {
                 .rel-day { font-size: 16px; font-weight: 800; color: var(--text-primary); font-family: var(--font-headline); line-height: 1; }
                 .rel-month { font-size: 8px; font-weight: 800; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em; margin-top: 2px; }
 
-                .rel-info { display: flex; flex-direction: column; gap: 2px; }
-                .rel-barrage { font-family: var(--font-headline); font-weight: 800; color: var(--text-primary); font-size: 14px; }
-                .rel-meta { display: flex; align-items: center; gap: 12px; font-size: 11px; color: var(--text-muted); font-weight: 500; }
-                .rel-meta-item { display: flex; align-items: center; gap: 4px; }
+                .rel-info { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+                .rel-barrage { font-family: var(--font-headline); font-weight: 800; color: #11181A; font-size: clamp(13px, 4vw, 15px); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+                .rel-meta { display: flex; align-items: center; gap: clamp(8px, 2.5vw, 16px); font-size: 11px; color: #5A7A82; font-weight: 600; flex-wrap: wrap; }
+                .rel-meta-item { display: flex; align-items: center; gap: 4px; white-space: nowrap; }
 
-                .rel-aside { display: flex; align-items: center; gap: 24px; }
+                .rel-aside { display: flex; align-items: center; gap: clamp(12px, 3vw, 24px); flex-shrink: 0; }
 
                 .rel-v-box { text-align: right; }
-                .rel-v-val { font-family: var(--font-headline); font-size: 16px; font-weight: 900; color: var(--accent); }
-                .rel-v-unit { font-size: 10px; font-weight: 700; color: var(--text-muted); margin-left: 3px; }
+                .rel-v-val { font-family: var(--font-headline); font-size: clamp(15px, 4.5vw, 18px); font-weight: 900; color: var(--accent); letter-spacing: -0.01em; }
+                .rel-v-unit { font-size: 10px; font-weight: 800; color: #8AACB2; margin-left: 2px; }
 
                 .rel-status-chip {
                     display: flex;
                     align-items: center;
                     gap: 6px;
-                    padding: 6px 14px;
+                    padding: 6px 12px;
                     border-radius: 100px;
                     font-size: 9px;
-                    font-weight: 800;
+                    font-weight: 850;
                     text-transform: uppercase;
-                    letter-spacing: 0.05em;
+                    letter-spacing: 0.06em;
                     min-width: 90px;
                     justify-content: center;
+                    white-space: nowrap;
                 }
 
                 .rel-exec {
                     background: linear-gradient(135deg, #005E70, #003D4D);
-                    color: white;
-                    border: none;
-                    padding: 8px 16px;
-                    border-radius: 100px;
-                    font-size: 10px;
-                    font-weight: 800;
-                    cursor: pointer;
-                    transition: all 0.2s;
+                    color: white; border: none; padding: 10px 18px; border-radius: 100px;
+                    font-size: 10px; font-weight: 850; cursor: pointer; transition: all 0.2s;
+                    box-shadow: 0 4px 12px rgba(0, 94, 112, 0.15);
                 }
-                .rel-exec:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0, 94, 112, 0.2); }
+                .rel-exec:hover { transform: translateY(-1px); box-shadow: 0 6px 16px rgba(0, 94, 112, 0.25); }
 
                 .rel-deny {
-                    background: white;
-                    color: #DC2626;
-                    border: 1.5px solid #FEE2E2;
-                    padding: 7px 16px;
-                    border-radius: 100px;
-                    font-size: 10px;
-                    font-weight: 800;
-                    cursor: pointer;
-                    transition: all 0.2s;
+                    background: white; color: #DC2626; border: 1.5px solid #FEE2E2;
+                    padding: 9px 18px; border-radius: 100px; font-size: 10px; font-weight: 850;
+                    cursor: pointer; transition: all 0.2s;
                 }
                 .rel-deny:hover { background: #FEF2F2; border-color: #F87171; }
 
                 @media (max-width: 768px) {
-                    .release-item { flex-direction: column; align-items: flex-start; gap: 16px; padding: 16px; }
-                    .rel-aside { width: 100%; justify-content: space-between; border-top: 1px solid var(--border-subtle); padding-top: 12px; }
+                    .release-item { 
+                        flex-direction: column; align-items: stretch; gap: 16px; padding: 18px; 
+                        background: rgba(255,255,255,0.7);
+                    }
+                    .rel-main { align-items: flex-start; }
+                    .rel-aside { 
+                        width: 100%; justify-content: space-between; 
+                        border-top: 1.5px solid rgba(138, 172, 178, 0.1); 
+                        padding-top: 14px; 
+                        margin-top: 4px;
+                    }
+                    .rel-v-box { text-align: left; }
+                }
+                @media (max-width: 400px) {
+                    .rel-date-card { width: 42px; height: 46px; }
+                    .rel-day { font-size: 14px; }
+                    .rel-meta { gap: 8px; }
+                    .rel-status-chip { min-width: 80px; padding: 5px 10px; font-size: 8.5px; }
                 }
             `}</style>
 
@@ -185,18 +201,18 @@ const ReleaseList = ({ history, user, onRefresh }) => {
                             </div>
 
                             <div className="rel-info">
-                                <div className="rel-barrage">{item.barrage}</div>
+                                <div className="rel-barrage">{fixEncoding(item.barrage)}</div>
                                 <div className="rel-meta">
                                     <span className="rel-meta-item"><Activity size={14} color="#00C8AE" /> {item.type.charAt(0).toUpperCase() + item.type.slice(1)}</span>
                                     <span className="rel-meta-item" style={{ color: 'var(--accent)', fontWeight: 600 }}>
                                         <div style={{ width: 14, height: 14, borderRadius: '50%', background: 'var(--accent-light)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 8, color: 'var(--accent)', flexShrink: 0 }}>
                                             {item.utilisateur?.charAt(0).toUpperCase() || 'S'}
                                         </div>
-                                        {item.utilisateur || 'Système'}
+                                        {fixEncoding(item.utilisateur) || 'Système'}
                                     </span>
                                     {item.motif && (
                                         <span className="rel-meta-item" style={{ fontStyle: 'italic', opacity: 0.8, maxWidth: '200px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                                            — {item.motif}
+                                            — {fixEncoding(item.motif)}
                                         </span>
                                     )}
                                 </div>
@@ -214,7 +230,7 @@ const ReleaseList = ({ history, user, onRefresh }) => {
                                 {status.label}
                             </div>
 
-                            {user?.role === 'directeur' && item.status === 'en_attente' && (
+                            {['directeur', 'ingenieur'].includes(user?.role) && item.status === 'en_attente' && (
                                 <div style={{ display: 'flex', gap: '8px' }}>
                                     <button onClick={() => handleRefuse(item.id_lacher)} className="rel-deny">
                                         REFUSER

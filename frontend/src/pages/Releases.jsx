@@ -31,43 +31,42 @@ const Releases = () => {
         fetchHistory();
     }, []);
 
-    const canManage = user?.role === 'ingenieur' || user?.role === 'directeur';
+    const canManage = ['directeur', 'ingenieur'].includes(user?.role);
 
     return (
         <>
             <style>{`
                 .rl-root {
                     font-family: 'DM Sans', sans-serif;
-                    padding: clamp(16px, 4vw, 24px) clamp(16px, 4vw, 36px);
+                    padding: clamp(16px, 4vw, 36px);
                     display: flex;
                     flex-direction: column;
-                    gap: 20px;
+                    gap: clamp(20px, 3vh, 32px);
                     height: 100%;
                     overflow-y: auto;
                     background: rgba(255,255,255,0.62);
                     backdrop-filter: blur(20px);
                     -webkit-backdrop-filter: blur(20px);
-                    border-left: 1.5px solid rgba(255,255,255,0.88);
                 }
 
                 .rl-header { 
                     display: flex; 
                     justify-content: space-between; 
-                    align-items: flex-end; 
+                    align-items: center; 
                     flex-shrink: 0; 
                     flex-wrap: wrap; 
-                    gap: 24px;
+                    gap: 20px;
                 }
                 .rl-title { 
                     font-family: var(--font-headline); 
-                    font-size: 32px; 
-                    font-weight: 800; 
+                    font-size: clamp(26px, 6vw, 38px); 
+                    font-weight: 900; 
                     color: var(--text-primary); 
-                    line-height: 1.1; 
-                    letter-spacing: -0.02em;
+                    line-height: 1.05; 
+                    letter-spacing: -0.04em;
                 }
                 .rl-subtitle { 
-                    font-size: 14px; 
+                    font-size: clamp(12px, 3.5vw, 14px); 
                     color: var(--text-muted); 
                     font-weight: 500; 
                     margin-top: 6px; 
@@ -76,12 +75,17 @@ const Releases = () => {
                 .rl-btn-create {
                     background: linear-gradient(135deg, #005E70, #003D4D);
                     color: white; border: none; border-radius: 100px;
-                    padding: 16px 32px; font-family: var(--font-headline); font-size: 13px; font-weight: 800;
+                    padding: clamp(12px, 3vw, 16px) clamp(20px, 5vw, 32px); 
+                    font-family: var(--font-headline); font-size: clamp(11px, 3vw, 13px); font-weight: 800;
                     cursor: pointer; display: flex; align-items: center; gap: 10px;
                     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
                     box-shadow: 0 10px 25px rgba(0, 94, 112, 0.2);
                     letter-spacing: 0.05em;
                     text-transform: uppercase;
+                }
+                @media (max-width: 480px) {
+                    .rl-header { flex-direction: column; align-items: flex-start; gap: 24px; }
+                    .rl-btn-create { width: 100%; justify-content: center; }
                 }
                 .rl-btn-create:hover { 
                     transform: translateY(-3px) scale(1.02); 
@@ -179,7 +183,7 @@ const Releases = () => {
                 <div className="rl-overlay" onClick={() => setIsModalOpen(false)}>
                     <div className="rl-modal" onClick={e => e.stopPropagation()}>
                         <button className="rl-modal-close" onClick={() => setIsModalOpen(false)}><X size={20} /></button>
-                        
+
                         <div style={{ marginBottom: 36 }}>
                             <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: 8 }}>
                                 <div style={{ background: 'rgba(0,200,174,0.1)', color: 'var(--accent)', padding: '8px', borderRadius: '12px' }}>
@@ -190,11 +194,11 @@ const Releases = () => {
                             <p style={{ fontSize: 14, color: '#7A9BA0', margin: 0, paddingLeft: 46 }}>Configuration technique et planification du déversement.</p>
                         </div>
 
-                        <ReleaseForm 
+                        <ReleaseForm
                             onReleaseCreated={() => {
                                 setIsModalOpen(false);
                                 fetchHistory();
-                            }} 
+                            }}
                         />
                     </div>
                 </div>

@@ -10,6 +10,7 @@ import {
 } from 'recharts';
 import LoadingOverlay from '../components/LoadingOverlay';
 import apiRequest from '../services/api';
+import { useAuth } from '../context/AuthContext';
 
 /* ── Recharts: Volume History Chart ─────────────────── */
 const VolumeChart = ({ data }) => (
@@ -23,16 +24,16 @@ const VolumeChart = ({ data }) => (
           </linearGradient>
         </defs>
         <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="rgba(138, 172, 178, 0.15)" />
-        <XAxis 
-          dataKey="date" 
-          axisLine={false} 
-          tickLine={false} 
-          tick={{ fontSize: 10, fill: '#7A9BA0', fontWeight: 600 }} 
-          dy={10} 
+        <XAxis
+          dataKey="date"
+          axisLine={false}
+          tickLine={false}
+          tick={{ fontSize: 10, fill: '#7A9BA0', fontWeight: 600 }}
+          dy={10}
         />
-        <YAxis 
-          axisLine={false} 
-          tickLine={false} 
+        <YAxis
+          axisLine={false}
+          tickLine={false}
           tick={{ fontSize: 10, fill: '#7A9BA0', fontWeight: 600 }}
           tickFormatter={(val) => val >= 1000000 ? `${(val / 1000000).toFixed(0)}M` : (val >= 1000 ? `${(val / 1000).toFixed(0)}k` : val)}
           width={40}
@@ -55,16 +56,16 @@ const ReleasesChart = ({ data }) => (
     <ResponsiveContainer width="100%" height="100%">
       <BarChart data={data} margin={{ top: 10, right: 10, left: 10, bottom: 0 }}>
         <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="rgba(138, 172, 178, 0.15)" />
-        <XAxis 
-          dataKey="date_lacher" 
-          axisLine={false} 
-          tickLine={false} 
-          tick={{ fontSize: 10, fill: '#7A9BA0', fontWeight: 600 }} 
-          dy={10} 
+        <XAxis
+          dataKey="date_lacher"
+          axisLine={false}
+          tickLine={false}
+          tick={{ fontSize: 10, fill: '#7A9BA0', fontWeight: 600 }}
+          dy={10}
         />
-        <YAxis 
-          axisLine={false} 
-          tickLine={false} 
+        <YAxis
+          axisLine={false}
+          tickLine={false}
           tick={{ fontSize: 10, fill: '#7A9BA0', fontWeight: 600 }}
           tickFormatter={(val) => val >= 1000000 ? `${(val / 1000000).toFixed(0)}M` : (val >= 1000 ? `${(val / 1000).toFixed(0)}k` : val)}
           width={40}
@@ -83,7 +84,7 @@ const ReleasesChart = ({ data }) => (
 
 /* ── Stat Card ────────────────────────────────────────── */
 const StatCard = ({ icon: Icon, label, value, unit, sub, subColor, iconColor, progress }) => (
-  <div style={{
+  <div className="stat-card" style={{
     background: 'var(--bg-surface)',
     border: '1px solid var(--border-subtle)',
     borderRadius: '18px',
@@ -99,14 +100,14 @@ const StatCard = ({ icon: Icon, label, value, unit, sub, subColor, iconColor, pr
     onMouseLeave={e => e.currentTarget.style.borderColor = 'var(--border-subtle)'}
   >
     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-      <span style={{ fontSize: '10px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em', color: 'var(--text-muted)' }}>
+      <span className="stat-card-label" style={{ fontSize: '10px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em', color: 'var(--text-muted)' }}>
         {label}
       </span>
       <Icon size={16} color={iconColor} strokeWidth={1.8} style={{ opacity: 0.8 }} />
     </div>
     <div style={{ display: 'flex', alignItems: 'baseline', gap: '6px' }}>
-      <span style={{ fontSize: '30px', fontWeight: 900, color: 'var(--text-primary)', letterSpacing: '-0.03em' }}>{value}</span>
-      <span style={{ fontSize: '13px', color: 'var(--text-secondary)', fontWeight: 500 }}>{unit}</span>
+      <span className="stat-card-value" style={{ fontSize: '30px', fontWeight: 900, color: 'var(--text-primary)', letterSpacing: '-0.03em' }}>{value}</span>
+      <span className="stat-card-unit" style={{ fontSize: '13px', color: 'var(--text-secondary)', fontWeight: 500 }}>{unit}</span>
     </div>
     {progress !== undefined && (
       <div style={{ width: '100%', height: '3px', background: '#e2e8f0', borderRadius: '99px', overflow: 'hidden' }}>
@@ -119,12 +120,13 @@ const StatCard = ({ icon: Icon, label, value, unit, sub, subColor, iconColor, pr
         }} />
       </div>
     )}
-    {sub && <p style={{ fontSize: '11px', fontWeight: 500, color: subColor, margin: 0 }}>{sub}</p>}
+    {sub && <p className="stat-card-sub" style={{ fontSize: '11px', fontWeight: 500, color: subColor, margin: 0 }}>{sub}</p>}
   </div>
 );
 
 /* ── Dashboard ────────────────────────────────────────── */
 const Dashboard = () => {
+  const { user } = useAuth();
   const [dashboardData, setDashboardData] = useState(null);
   const [releases, setReleases] = useState([]);
   const [alerts, setAlerts] = useState([]);
@@ -141,7 +143,6 @@ const Dashboard = () => {
   };
 
   useEffect(() => {
-    // Fetch overview stats
     apiRequest('/dashboard/overview')
       .then(data => {
         if (data && data.length > 0) {
@@ -152,12 +153,10 @@ const Dashboard = () => {
       })
       .catch(err => setErrorMsg(err.message));
 
-    // Fetch release history
     apiRequest('/dashboard/history')
       .then(data => setReleases(Array.isArray(data) ? data.slice(0, 10) : []))
       .catch(() => { });
 
-    // Fetch latest alerts
     apiRequest('/alerts')
       .then(data => {
         if (Array.isArray(data)) {
@@ -173,7 +172,6 @@ const Dashboard = () => {
       stored.push(alertId);
       localStorage.setItem('handledAlerts', JSON.stringify(stored));
     }
-    // Force re-render so the banner disappears, but keep alerts in state for the Recent Alerts section
     setAlerts(prev => [...prev]);
   };
 
@@ -198,48 +196,114 @@ const Dashboard = () => {
     <>
       <style>{`
         .dash-container {
-          padding: 24px 36px;
+          padding: clamp(16px, 4vw, 36px);
           display: flex;
           flex-direction: column;
-          gap: 18px;
+          gap: clamp(14px, 2.5vh, 20px);
+          max-width: 1600px;
+          margin: 0 auto;
         }
 
         .stat-grid {
           display: grid;
           grid-template-columns: repeat(4, 1fr);
-          gap: 14px;
+          gap: 16px;
         }
 
         .charts-grid {
           display: grid;
           grid-template-columns: 1fr 1fr;
-          gap: 14px;
+          gap: 16px;
         }
 
         .bottom-grid {
           display: grid;
           grid-template-columns: 3fr 2fr;
-          gap: 14px;
+          gap: 16px;
         }
 
+        /* Responsive Breakpoints */
         @media (max-width: 1024px) {
-          .stat-grid { grid-template-columns: repeat(2, 1fr); }
           .charts-grid { grid-template-columns: 1fr; }
           .bottom-grid { grid-template-columns: 1fr; }
         }
 
-        @media (max-width: 640px) {
-          .dash-container { padding: 16px; gap: 14px; }
-          .stat-grid { grid-template-columns: 1fr; gap: 10px; }
-          .charts-grid, .bottom-grid { gap: 10px; }
+        @media (max-width: 768px) {
+          .dash-container { padding: 20px; }
+          .stat-grid { gap: 12px; }
+          .charts-grid, .bottom-grid { gap: 12px; }
         }
+
+        /* Mobile specific Edge-to-Edge Layout */
+        @media (max-width: 480px) {
+          .dash-container { 
+            padding: 0; 
+            gap: 10px; 
+            width: 100%; 
+            overflow-x: hidden;
+            background: transparent;
+          }
+          .stat-grid { 
+            grid-template-columns: 1fr 1fr; 
+            gap: 1.5px; 
+            width: 100%; 
+            padding: 0;
+            background: rgba(138, 172, 178, 0.2); 
+          }
+          .card-header-inner { flex-direction: column; align-items: flex-start !important; gap: 8px; }
+          
+          .chart-card-content, .critical-alert-banner { 
+            padding: 24px 16px !important; 
+            border-radius: 0 !important; 
+            border-left: none !important; 
+            border-right: none !important; 
+            margin: 0 !important;
+            width: 100% !important;
+            boxSizing: border-box !important;
+            box-shadow: none !important;
+            border-bottom: 1px solid var(--border-subtle);
+          }
+
+          .stat-card { 
+            padding: 16px !important; 
+            gap: 8px !important; 
+            border-radius: 0 !important; 
+            border: none !important;
+            background: var(--bg-surface) !important;
+          }
+          
+          .stat-card-value { font-size: 20px !important; }
+          .stat-card-label { font-size: 8px !important; }
+          .stat-card-unit { font-size: 10px !important; }
+          .stat-card-sub { display: none !important; } 
+          
+          .alert-item-compact {
+            width: 100%;
+            max-width: 100%;
+            boxSizing: border-box;
+            border-radius: 12px !important;
+            flex-shrink: 0;
+          }
+
+          /* Table Mobile Fix */
+          .table-scroll-container {
+            width: 100%;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+          }
+          /* Hide non-essential columns on small screens to fit width */
+          @media (max-width: 500px) {
+            .col-motif, .col-par { display: none !important; }
+          }
+        }
+
+        .table-scroll-container::-webkit-scrollbar { height: 4px; }
+        .table-scroll-container::-webkit-scrollbar-thumb { background: rgba(0, 184, 160, 0.2); border-radius: 10px; }
       `}</style>
 
       <div className="dash-container">
-
-        {/* Critical Alert Banner — from DB alerts */}
         {latestCriticalAlert && (
-          <div style={{
+          <div className="critical-alert-banner" style={{
             display: 'flex',
             alignItems: 'center',
             gap: '16px',
@@ -264,23 +328,23 @@ const Dashboard = () => {
                 {fixEncoding(latestCriticalAlert.description)}
               </p>
             </div>
-            <button
-              onClick={() => handleDismiss(latestCriticalAlert.id)}
-              style={{
-                fontSize: '10px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em',
-                color: '#d97706',
-                border: '1px solid rgba(217,119,6,0.3)',
-                borderRadius: '8px', padding: '6px 12px',
-                background: 'transparent', cursor: 'pointer', flexShrink: 0,
-                transition: 'background 0.15s',
-              }}
-            >
-              Acquitter
-            </button>
+            {['directeur', 'ingenieur'].includes(user?.role) && (
+              <button
+                onClick={() => handleDismiss(latestCriticalAlert.id)}
+                style={{
+                  fontSize: '10px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em',
+                  color: '#d97706',
+                  border: '1px solid rgba(217,119,6,0.3)',
+                  borderRadius: '8px', padding: '6px 12px',
+                  background: 'transparent', cursor: 'pointer', flexShrink: 0,
+                }}
+              >
+                Acquitter
+              </button>
+            )}
           </div>
         )}
 
-        {/* Stat Cards — all from API */}
         <div className="stat-grid">
           <StatCard icon={BarChart2} label="Remplissage du Barrage" value={dashboardData.pourcentage_remplissage.toFixed(1)} unit="%" sub={`Capacité: ${Number(dashboardData.capacite_max_m3).toLocaleString()} m³`} subColor={accentColor} iconColor={accentColor} progress={dashboardData.pourcentage_remplissage} />
           <StatCard icon={Droplets} label="Volume d'Eau Actuel" value={(dashboardData.niveau_eau_m3 / 1000000).toFixed(2)} unit="M m³" sub={`Barrage: ${dashboardData.barrage}`} subColor="var(--text-muted)" iconColor="#06b6d4" />
@@ -288,18 +352,15 @@ const Dashboard = () => {
           <StatCard icon={AlertTriangle} label="Alertes Critiques" value={dashboardData.nb_alertes_critiques} unit="" sub={dashboardData.nb_alertes_critiques > 0 ? "Intervention requise" : "Tout est normal"} subColor={dashboardData.nb_alertes_critiques > 0 ? "#ef4444" : "#10b981"} iconColor={dashboardData.nb_alertes_critiques > 0 ? "#ef4444" : "#10b981"} />
         </div>
 
-        {/* Charts Row */}
         <div className="charts-grid">
-
-          {/* Volume History Chart — from API level_history */}
-          <div style={{
+          <div className="chart-card-content" style={{
             background: 'var(--bg-surface)',
             border: '1px solid var(--border-subtle)',
             borderRadius: '18px',
             padding: '24px',
             boxShadow: 'var(--card-shadow)',
           }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '20px' }}>
+            <div className="card-header-inner" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '20px' }}>
               <div>
                 <h2 style={{ color: 'var(--text-primary)', fontWeight: 800, fontSize: '20px', margin: '0 0 4px', letterSpacing: '-0.02em' }}>
                   {dashboardData.barrage}
@@ -320,15 +381,14 @@ const Dashboard = () => {
             <VolumeChart data={dashboardData.level_history || []} />
           </div>
 
-          {/* Releases Bar Chart — from /api/dashboard/history */}
-          <div style={{
+          <div className="chart-card-content" style={{
             background: 'var(--bg-surface)',
             border: '1px solid var(--border-subtle)',
             borderRadius: '18px',
             padding: '24px',
             boxShadow: 'var(--card-shadow)',
           }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '20px' }}>
+            <div className="card-header-inner" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '20px' }}>
               <div>
                 <h2 style={{ color: 'var(--text-primary)', fontWeight: 800, fontSize: '20px', margin: '0 0 4px', letterSpacing: '-0.02em' }}>
                   {"L\u00e2chers d'Eau"}
@@ -354,31 +414,43 @@ const Dashboard = () => {
           </div>
         </div>
 
-        {/* Bottom Row: Recent Releases Table + Recent Alerts */}
         <div className="bottom-grid">
-
-          {/* Recent Releases Table — from /api/dashboard/history */}
-          <div style={{
+          <div className="chart-card-content" style={{
             background: 'var(--bg-surface)',
             border: '1px solid var(--border-subtle)',
             borderRadius: '18px',
             padding: '24px',
             boxShadow: 'var(--card-shadow)',
           }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px' }}>
-              <FileText size={16} color={accentColor} />
-              <h3 style={{ color: 'var(--text-primary)', fontWeight: 700, fontSize: '17px', margin: 0 }}>
-                {"Derniers L\u00e2chers d'Eau"}
-              </h3>
+            <div className="card-header-inner" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '20px' }}>
+              <div>
+                <h2 style={{ color: 'var(--text-primary)', fontWeight: 800, fontSize: '20px', margin: '0 0 4px', letterSpacing: '-0.02em' }}>
+                  {"Historique"}
+                </h2>
+                <p style={{ color: 'var(--text-secondary)', fontSize: '13px', margin: 0 }}>
+                  {"Derniers L\u00e2chers d'Eau effectu\u00e9s"}
+                </p>
+              </div>
+              <span style={{
+                fontSize: '10px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em',
+                color: 'var(--text-secondary)',
+                border: '1px solid var(--border-medium)',
+                borderRadius: '8px', padding: '6px 12px',
+              }}>
+                Derniers 5
+              </span>
             </div>
             {releases.length > 0 ? (
-              <div style={{ overflowX: 'auto' }}>
+              <div className="table-scroll-container">
                 <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '12px' }}>
                   <thead>
                     <tr style={{ borderBottom: '1px solid var(--border-subtle)' }}>
-                      {['Date', 'Volume', 'Type', 'Statut', 'Motif', 'Par'].map(h => (
-                        <th key={h} style={{ padding: '8px 10px', textAlign: 'left', color: 'var(--text-muted)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', fontSize: '10px' }}>{h}</th>
-                      ))}
+                      <th style={{ padding: '8px 10px', textAlign: 'left', color: 'var(--text-muted)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', fontSize: '10px' }}>Date</th>
+                      <th style={{ padding: '8px 10px', textAlign: 'left', color: 'var(--text-muted)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', fontSize: '10px' }}>Volume</th>
+                      <th style={{ padding: '8px 10px', textAlign: 'left', color: 'var(--text-muted)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', fontSize: '10px' }}>Type</th>
+                      <th style={{ padding: '8px 10px', textAlign: 'left', color: 'var(--text-muted)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', fontSize: '10px' }}>Statut</th>
+                      <th className="col-motif" style={{ padding: '8px 10px', textAlign: 'left', color: 'var(--text-muted)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', fontSize: '10px' }}>Motif</th>
+                      <th className="col-par" style={{ padding: '8px 10px', textAlign: 'left', color: 'var(--text-muted)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', fontSize: '10px' }}>Par</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -400,8 +472,8 @@ const Dashboard = () => {
                             color: r.status === 'execute' ? '#10b981' : r.status === 'approuve' ? '#06b6d4' : '#f59e0b',
                           }}>{r.status}</span>
                         </td>
-                        <td style={{ padding: '10px', color: 'var(--text-secondary)', maxWidth: '150px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{fixEncoding(r.motif) || '-'}</td>
-                        <td style={{ padding: '10px', color: 'var(--text-secondary)' }}>{fixEncoding(r.utilisateur)}</td>
+                        <td className="col-motif" style={{ padding: '10px', color: 'var(--text-secondary)', maxWidth: '150px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{fixEncoding(r.motif) || '-'}</td>
+                        <td className="col-par" style={{ padding: '10px', color: 'var(--text-secondary)' }}>{fixEncoding(r.utilisateur)}</td>
                       </tr>
                     ))}
                   </tbody>
@@ -412,24 +484,35 @@ const Dashboard = () => {
             )}
           </div>
 
-          {/* Recent Alerts — from /api/alerts */}
-          <div style={{
+          <div className="chart-card-content" style={{
             background: 'var(--bg-surface)',
             border: '1px solid var(--border-subtle)',
             borderRadius: '18px',
             padding: '24px',
             boxShadow: 'var(--card-shadow)',
           }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px' }}>
-              <AlertTriangle size={16} color="#f59e0b" />
-              <h3 style={{ color: 'var(--text-primary)', fontWeight: 700, fontSize: '17px', margin: 0 }}>
-                {"Alertes R\u00e9centes"}
-              </h3>
+            <div className="card-header-inner" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '20px' }}>
+              <div>
+                <h2 style={{ color: 'var(--text-primary)', fontWeight: 800, fontSize: '20px', margin: '0 0 4px', letterSpacing: '-0.02em' }}>
+                  {"Alertes"}
+                </h2>
+                <p style={{ color: 'var(--text-secondary)', fontSize: '13px', margin: 0 }}>
+                  {"Notifications et alertes de s\u00e9curit\u00e9 r\u00e9centes"}
+                </p>
+              </div>
+              <span style={{
+                fontSize: '10px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em',
+                color: 'var(--text-secondary)',
+                border: '1px solid var(--border-medium)',
+                borderRadius: '8px', padding: '6px 12px',
+              }}>
+                Temps Réel
+              </span>
             </div>
             {alerts.length > 0 ? (
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', width: '100%', boxSizing: 'border-box' }}>
                 {alerts.slice(0, 5).map((alert, i) => (
-                  <div key={alert.id || i} style={{
+                  <div key={alert.id || i} className="alert-item-compact" style={{
                     display: 'flex', alignItems: 'flex-start', gap: '12px',
                     padding: '12px', borderRadius: '12px',
                     background: alert.severity === 'critique' ? 'rgba(239,68,68,0.05)' : alert.severity === 'warning' ? 'rgba(251,191,36,0.05)' : 'rgba(6,182,212,0.05)',
@@ -455,7 +538,7 @@ const Dashboard = () => {
                 ))}
               </div>
             ) : (
-              <p style={{ color: 'var(--text-muted)', fontSize: '13px' }}>{"Aucune alerte en base de donn\u00e9es."}</p>
+              <p style={{ color: 'var(--text-muted)', fontSize: '13px' }}>{"Aucune alerte r\u00e9cente."}</p>
             )}
           </div>
         </div>
