@@ -52,5 +52,15 @@ services:
     depends_on:
       db:
         condition: service_healthy
+
+  # ---- Frontend Interface (React + Vite) ----
+  frontend:
+    build: ./frontend
+    container_name: barrage-frontend
+    restart: always
+    ports:
+      - "5173:5173"
+    depends_on:
+      - backend
 volumes:
   mysql_data:
