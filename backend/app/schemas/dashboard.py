@@ -11,11 +11,14 @@ class DashboardSummary(BaseModel):
     nb_alertes_critiques: int
     nb_demandes_en_attente: int
 
+class DistributionCoop(BaseModel):
+    nom_coop: str
+    volume_m3: float
+
 class DashboardResponse(BaseModel):
     date_jour: date
     summary: DashboardSummary
-    level_history: List[WaterLevelPoint] # Données pour le Graphique LineChart
-    distribution_coops: Optional[List[dict]] = None # Pour un PieChart (répartitions)
-
+    level_history: List[WaterLevelPoint]
+    distribution_coops: Optional[List[DistributionCoop]] = None 
     class Config:
         from_attributes = True

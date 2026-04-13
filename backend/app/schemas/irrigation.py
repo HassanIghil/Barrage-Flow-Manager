@@ -11,7 +11,7 @@ class IrrigationStatus(str, Enum):
 class IrrigationBase(BaseModel):
     volume_demande_m3: float = Field(..., gt=0)
     priorite: int = Field(3, ge=1, le=5) # 1 (basse) à 5 (critique)
-    id_coop: int
+    id_coop: int = Field(..., gt=0)
 
 class IrrigationCreate(IrrigationBase):
     pass
