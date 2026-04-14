@@ -37,10 +37,10 @@ Le système repose sur quatre piliers fondamentaux :
 
 | Couche | Technologie | Notes |
 |--------|------------|-------|
-| 🖥️ **Frontend** | React + Vite + TypeScript | Dashboard avec Recharts, Leaflet, TailwindCSS |
-| 🔌 **Backend API** | FastAPI (Python 3.11+) | REST API avec JWT auth, RBAC |
+| 🖥️ **Frontend** | React 18 + Vite + JavaScript (JSX) | Dashboard avec Recharts, Leaflet, TailwindCSS |
+| 🔌 **Backend API** | FastAPI (Python 3.12) | REST API avec JWT auth, RBAC |
 | 🗄️ **Base de Données** | MySQL 8.0 | Triggers, procédures stockées, RBAC natif |
-| 🐳 **Containerisation** | Docker + Docker Compose | Environnement de développement unifié |
+| 🐳 **Containerisation** | Docker + Docker Compose | 4 services (Backend, Frontend, MySQL, phpMyAdmin) |
 | 💬 **Communication** | Slack | Canaux dédiés par pôle (Audit, Dev, QA) |
 | 📦 **Versioning** | Git + GitHub | Workflow strict (PR + Approval) |
 
@@ -55,14 +55,17 @@ barrage-flow-manager/
 ├── .gitignore
 ├── docker-compose.yml
 │
-├── 📁 backend/                        ← FastAPI Backend (Python)
+├── 📁 backend/                        ← FastAPI Backend (Python 3.12)
+│   ├── Dockerfile                     ← Image Python 3.12-slim
+│   ├── requirements.txt               ← Dépendances Python
 │   ├── README.md                      ← Guide outils + structure
 │   └── app/
-│       ├── core/                      ← Config, DB, Security
-│       ├── middleware/                ← Auth JWT, RBAC
-│       ├── models/                    ← Modèles SQLAlchemy
-│       ├── schemas/                   ← Schémas Pydantic
-│       ├── routes/                    ← Endpoints API
+│       ├── main.py                    ← Point d'entrée FastAPI + CORS
+│       ├── core/                      ← Config, DB, Security (JWT + bcrypt)
+│       ├── middleware/                ← RBAC (role_checker)
+│       ├── models/                    ← 7 Modèles SQLAlchemy
+│       ├── schemas/                   ← Schémas Pydantic (validation)
+│       ├── routes/                    ← 7 modules API REST
 │       ├── services/                  ← Logique métier
 │       └── utils/                     ← Helpers
 │
@@ -71,14 +74,21 @@ barrage-flow-manager/
 │   ├── conception/                    ← MERISE : MCD, MLD, MPD
 │   └── sql/                           ← Scripts SQL (MySQL)
 │
-├── 📁 frontend/                       ← React + Vite + TypeScript
+├── 📁 frontend/                       ← React 18 + Vite + JSX
+│   ├── Dockerfile                     ← Multi-stage (Node 20 → serve)
+│   ├── package.json                   ← Dépendances NPM
+│   ├── vite.config.js
+│   ├── tailwind.config.js             ← Thème AquaFlow custom
 │   ├── README.md                      ← Guide outils + frameworks
 │   └── src/
-│       ├── components/
-│       ├── pages/
-│       ├── hooks/
-│       ├── services/
-│       ├── types/
+│       ├── App.jsx                    ← Routeur + routes protégées
+│       ├── main.jsx                   ← Point d'entrée (Providers)
+│       ├── components/                ← Sidebar, ProtectedRoute, ReleaseForm...
+│       ├── pages/                     ← Login, Dashboard, Demands, Releases...
+│       ├── context/                   ← AuthContext, ThemeContext
+│       ├── layouts/                   ← MainLayout (sidebar + content)
+│       ├── hooks/                     ← Hooks personnalisés
+│       ├── services/                  ← api.js (client HTTP fetch natif)
 │       └── assets/
 │
 ├── 📁 docs/                           ← Documentation Centrale

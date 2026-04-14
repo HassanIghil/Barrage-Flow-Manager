@@ -8,34 +8,34 @@
 
 | Outil | Rôle | Documentation |
 |-------|------|---------------|
-| Python 3.11+ | Langage principal | [python.org](https://python.org) |
+| Python 3.12 | Langage principal | [python.org](https://python.org) |
 | FastAPI | Framework API REST async | [fastapi.tiangolo.com](https://fastapi.tiangolo.com) |
 | Uvicorn | Serveur ASGI | [uvicorn.org](https://www.uvicorn.org) |
-| SQLAlchemy 2.0 | ORM (modèles de tables) | [sqlalchemy.org](https://www.sqlalchemy.org) |
-| Pydantic 2.0 | Validation des données | [docs.pydantic.dev](https://docs.pydantic.dev) |
-| Alembic | Migrations de BDD | [alembic.sqlalchemy.org](https://alembic.sqlalchemy.org) |
-| python-jose | Tokens JWT | [pypi.org/project/python-jose](https://pypi.org/project/python-jose/) |
-| passlib + bcrypt | Hashing mots de passe | [passlib.readthedocs.io](https://passlib.readthedocs.io) |
-| mysql-connector-python | Connecteur MySQL | [dev.mysql.com](https://dev.mysql.com/doc/connector-python/en/) |
-| python-dotenv | Variables .env | [pypi.org/project/python-dotenv](https://pypi.org/project/python-dotenv/) |
+| SQLAlchemy | ORM (modèles de tables) | [sqlalchemy.org](https://www.sqlalchemy.org) |
+| Pydantic + pydantic-settings | Validation des données + configuration .env | [docs.pydantic.dev](https://docs.pydantic.dev) |
+| PyJWT | Génération et vérification des tokens JWT | [pypi.org/project/PyJWT](https://pypi.org/project/PyJWT/) |
+| bcrypt | Hashing sécurisé des mots de passe (OWASP) | [pypi.org/project/bcrypt](https://pypi.org/project/bcrypt/) |
+| PyMySQL | Connecteur MySQL natif pour Python | [pypi.org/project/PyMySQL](https://pypi.org/project/PyMySQL/) |
+| cryptography | Opérations cryptographiques bas niveau | [pypi.org/project/cryptography](https://pypi.org/project/cryptography/) |
+| email-validator | Validation des adresses email | [pypi.org/project/email-validator](https://pypi.org/project/email-validator/) |
 
 ---
 
-## ⚛️ Frontend (React / Vite / TypeScript)
+## ⚛️ Frontend (React / Vite / JavaScript JSX)
 
 | Outil | Rôle | Documentation |
 |-------|------|---------------|
-| React 18+ | Librairie UI | [react.dev](https://react.dev) |
-| Vite 5+ | Build tool | [vite.dev](https://vite.dev) |
-| TypeScript 5+ | Typage statique | [typescriptlang.org](https://www.typescriptlang.org) |
-| TailwindCSS 3+ | Framework CSS utility-first | [tailwindcss.com](https://tailwindcss.com) |
-| Shadcn/UI | Composants UI pré-stylés | [ui.shadcn.com](https://ui.shadcn.com) |
-| Recharts | Graphiques (niveau eau) | [recharts.org](https://recharts.org) |
-| Leaflet.js | Carte interactive | [leafletjs.com](https://leafletjs.com) |
-| React Router 6+ | Navigation SPA | [reactrouter.com](https://reactrouter.com) |
-| Axios | Requêtes HTTP | [axios-http.com](https://axios-http.com) |
-| React Hook Form | Formulaires | [react-hook-form.com](https://react-hook-form.com) |
-| Lucide React | Icônes SVG | [lucide.dev](https://lucide.dev) |
+| React 18 | Librairie UI (composants JSX) | [react.dev](https://react.dev) |
+| Vite 8 | Build tool ultra-rapide avec HMR | [vite.dev](https://vite.dev) |
+| TailwindCSS 3.4 | Framework CSS utility-first | [tailwindcss.com](https://tailwindcss.com) |
+| Recharts 2.12 | Graphiques interactifs (niveau eau, stats) | [recharts.org](https://recharts.org) |
+| Chart.js 4.5 + react-chartjs-2 | Graphiques complémentaires | [chartjs.org](https://www.chartjs.org) |
+| Leaflet 1.9 + React-Leaflet 4.2 | Carte interactive des coopératives | [leafletjs.com](https://leafletjs.com) |
+| React Router DOM 6 | Navigation SPA | [reactrouter.com](https://reactrouter.com) |
+| Axios | Client HTTP (installé, utilisé dans certaines pages) | [axios-http.com](https://axios-http.com) |
+| fetch natif (api.js) | Client HTTP principal (zéro dépendance) | MDN Web API |
+| Lucide React | Icônes SVG modernes | [lucide.dev](https://lucide.dev) |
+| PostCSS + Autoprefixer | Traitement CSS + compatibilité navigateurs | [postcss.org](https://postcss.org) |
 
 ---
 
