@@ -96,16 +96,24 @@ barrage-flow-manager/
 │   ├── DOCKER_GUIDE.md                ← Comment utiliser Docker
 │   ├── GITHUB_WORKFLOW.md             ← Branches, commits, PRs
 │   ├── TOOLS_REFERENCE.md             ← Tous les outils du projet
-│   └── conception/                    ← Diagrammes officiels
+│   ├── rapport_projet.pdf             ← Rapport Final (Développement)
+│   ├── rapport_projet_ia.pdf          ← Rapport Final (Version assistée par IA)
+│   ├── 📁 conception/                 ← Diagrammes officiels
 │
 ├── 📁 security/                       ← Pôle Sécurité
-│   ├── red-team/                      ← 🔴 Attaque / Audit
-│   │   └── GUIDE.md                   ← Guide débutant Red Team
-│   └── blue-team/                     ← 🔵 Défense / Durcissement
-│       └── GUIDE.md                   ← Guide débutant Blue Team
+│   ├── 📁 red-team/                   ← 🔴 Attaque / Audit
+│   │   ├── GUIDE.md                   ← Guide débutant Red Team
+│   │   └── 📁 reports/                ← Rapports d'audit
+│   │       └── RedTeam_Report.pdf
+│   └── 📁 blue-team/                  ← 🔵 Défense / Durcissement
+│       ├── GUIDE.md                   ← Guide débutant Blue Team
+│       └── 📁 reports/                ← Rapports de défense
+│           └── blueTeam_Report.pdf
 │
 └── 📁 quality/                        ← QA
-    └── GUIDE.md                       ← Guide débutant QA
+    ├── GUIDE.md                       ← Guide débutant QA
+    └── 📁 reports/                    ← Rapports QA
+        └── QA_report.pdf
 ```
 
 ---
@@ -138,6 +146,55 @@ Les équipes travaillent en **partenariat total** sur l'ensemble des couches tec
 | 🖊️ **Manuelle** (ce repo) | Hassan, Yassine, Aabir | [Barrage-Flow-Manager](https://github.com/HassanIghil/Barrage-Flow-Manager) |
 | 🤖 **IA** | INAK Samia, IRHIL Oussama, ISLAOUINE Mouad | [Barrage-Flow-Manager-AI-version](https://github.com/HassanIghil/barrage-flow-manager-ai-version) |
 
+---
+
+## 👨‍💻 Membres de l'Équipe Complète
+
+### 🎓 Filière SDBDIA (Sciences des Données, Big Data et Intelligence Artificielle)
+
+| Membre | Rôle | Équipe | GitHub |
+| :--- | :--- | :--- | :--- |
+| **IGHIL Hassan** | Chef de Projet (PM) | 🖊️ Manuelle | [@HassanIghil](https://github.com/HassanIghil) |
+| **IFQUIRNE Yassine** | Développeur Full-Stack | 🖊️ Manuelle | [@yassine-ifquirne](https://github.com/yassine-ifquirne) |
+| **BOULAID Aabir** | Développeuse Full-Stack | 🖊️ Manuelle | [@aabirid](https://github.com/aabirid) |
+| **INAK Samia** | Développeuse (IA) | 🤖 IA | [@Samia-i](https://github.com/Samia-i) |
+| **IRHIL Oussama** | Développeur (IA) | 🤖 IA | [@IrhilOussama](https://github.com/IrhilOussama) |
+| **ISLAOUINE Mouad** | Développeur (IA) | 🤖 IA | [@MOUADISLAOUINE](https://github.com/MOUADISLAOUINE) |
+
+### 🛡️ Filière SITCN (Sécurité Informatique et Technologies de Communication Numérique)
+
+| Membre | Rôle | Pôle | GitHub |
+| :--- | :--- | :--- | :--- |
+| **HARBECH M.** | Pentester | 🔴 Red Team | *en attente* |
+| **HARBOUS Moncif** | Pentester | 🔴 Red Team | [@Moncif977](https://github.com/Moncif977) |
+| **HRIMICH Reda** | Défense & Durcissement | 🔵 Blue Team | [@Hr-reda](https://github.com/Hr-reda) |
+| **IGHRANE Imane** | Défense & Durcissement | 🔵 Blue Team | [@IMANE-10](https://github.com/IMANE-10) |
+| **ISKANDER El Mahdi** | QA Tester | 🧪 QA | [@Mehdi23-bit](https://github.com/Mehdi23-bit) |
+| **JAIT Reda** | QA Tester | 🧪 QA | [@RedaJait](https://github.com/RedaJait) |
+
+---
+
+## 🎬 Démo Vidéo
+
+<p align="center">
+  <a href="https://youtu.be/agdu-NjDP54">
+    <img src="https://img.youtube.com/vi/agdu-NjDP54/maxresdefault.jpg" alt="Démo Vidéo — Barrage-Flow Manager" width="700"/>
+  </a>
+  <br/><br/>
+  <b>▶️ Cliquez sur l'image pour voir la démo complète sur YouTube</b>
+</p>
+
+---
+
+## 📄 Rapports du Projet
+
+| Document | Équipe | Lien |
+|----------|--------|------|
+| 📝 Rapport Final — Développement | 🖊️ Architects (SDBDIA) | [rapport_projet.pdf](docs/rapport_projet.pdf) |
+| 🤖 Rapport Final — Assistants IA | 🤖 Augmenteds (SDBDIA) | [rapport_projet_ia.pdf](docs/rapport_projet_ia.pdf) |
+| 🔴 Rapport Red Team — Tests d'intrusion | 🛡️ SITCN | [RedTeam_Report.pdf](security/red-team/reports/RedTeam_Report.pdf) |
+| 🔵 Rapport Blue Team — Défense & Durcissement | 🛡️ SITCN | [blueTeam_Report.pdf](security/blue-team/reports/blueTeam_Report.pdf) |
+| 🧪 Rapport QA — Tests fonctionnels | 🧪 SITCN | [QA_report.pdf](quality/reports/QA_report.pdf) |
 ---
 
 ## 🗓️ Phases
