@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://img.shields.io/badge/Status-En%20Développement-yellow?style=for-the-badge" alt="Status"/>
+  <img src="https://img.shields.io/badge/Status-Terminé-brightgreen?style=for-the-badge" alt="Status"/>
   <img src="https://img.shields.io/badge/Version-Manuelle%20🖊️-orange?style=for-the-badge" alt="Version"/>
   <img src="https://img.shields.io/badge/Université-Souss%20Massa-blue?style=for-the-badge" alt="University"/>
   <img src="https://img.shields.io/badge/Projet-SIBD%202025--2026-green?style=for-the-badge" alt="Project"/>
@@ -165,7 +165,7 @@ Les équipes travaillent en **partenariat total** sur l'ensemble des couches tec
 
 | Membre | Rôle | Pôle | GitHub |
 | :--- | :--- | :--- | :--- |
-| **HARBECH M.** | Pentester | 🔴 Red Team | *en attente* |
+| **HARBECH M.** | Pentester | 🔴 Red Team | [@MohammedHARBECH](https://github.com/MohammedHARBECH) |
 | **HARBOUS Moncif** | Pentester | 🔴 Red Team | [@Moncif977](https://github.com/Moncif977) |
 | **HRIMICH Reda** | Défense & Durcissement | 🔵 Blue Team | [@Hr-reda](https://github.com/Hr-reda) |
 | **IGHRANE Imane** | Défense & Durcissement | 🔵 Blue Team | [@IMANE-10](https://github.com/IMANE-10) |
